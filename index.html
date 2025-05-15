@@ -29,7 +29,14 @@
     <section id="introduction">
         <h2>Project Introduction</h2>
 				<p>Intro here</p>
-        <img src="images/group.jpg" alt="Project Introduction">
+        <img src="images/group.jpg" alt="Project Introduction" class="scaled-image">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+
     </section>
 
     <section id="high-level-design">
@@ -37,9 +44,15 @@
 				<p>High-level design here</p>
     </section>
 
-    <section id="program-hardware-design">
-        <h2>Program/Hardware Design</h2>
-        <img src="images/high_level_block.png" alt="High-Level Block Diagram">
+    <section id="hardware-design">
+        <h2>Hardware Design</h2>
+        <img src="images/high_level_block.png" alt="High-Level Block Diagram" class="scaled-image">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
         <h3>PCB Design</h3>
         <p>Our hardware design is centered around our custom PCB built to house 
 					all components in as compact of a package as possible. This compactness 
@@ -74,9 +87,27 @@
 					and IMU on the right side of the board, as well as the three buttons 
 					on the left side, with various decoupling capacitors and resistors 
 					placed in any spare locations on either side of the board.</p>
-        <img src="images/smartwatch_schem.png" alt="Smartwatch Schematic">
-				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Front Copper Layout">
-				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Back Copper Layout">
+        <img src="images/smartwatch_schem.png" alt="Smartwatch Schematic" class="scaled-image">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Front Copper Layout" class="scaled-image">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Back Copper Layout" class="scaled-image">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
         <h4>Pico W</h4>
 				<p>A Pico W was necessary for this build as we required WiFi for the 
 					network connection to obtain real time and incorporate texting 
@@ -144,172 +175,547 @@
 					typical use cases. This DAC communicates over a standard 
 					unidirectional 3-wire SPI interface from controller to peripheral 
 					only, making it ideal for small PCB's where routing space is limited.</p>
-					<h4>PDM Microphone</h4>
-					<p>Purely analog microphones are notoriously hard to get clean 
-						audio out of without significant DSP code, which would have surely 
-						eaten into our resources on the Pico W. Instead, we chose to use 
-						a digital microphone implementing the PDM (pulse density modulation) 
-						two-wire interface so that the Pico need only deal with digital 
-						signals from the microphone. Specifically, we chose the SPH0641LM4H-1 
-						bottom-ported microphone due to its small size and bottom-facing 
-						port, meaning debris would not clog the hole had it been an 
-						upward-facing design. Such considerations are necessary for 
-						smartwatches given they are much more likely to face harsh 
-						conditions than, say, a laptop. The port is also ground-shielded 
-						around the perimeter, meaning it has good noise-reduction 
-						capabilities, again suitable for harsh conditions.</p>
-					<h4>Heart Rate Sensor</h4>
-					<p>A fundamental feature of many modern smartwatches is the ability 
-						to measure heart rate. However, not all watches can also measure 
-						SPO2, or percent oxygen in the blood. Fortunately for us, Texas 
-						Instruments makes an all-in-one heart rate and SPO2 sensor in a 
-						compact package suitable for a smartwatch form factor called the 
-						MAX30102. This device works by incorporating red and IR LEDs that 
-						shine light onto the skin. A certain amount of this light gets 
-						absorbed by the blood based on how much volume is pumped through 
-						the veins. Photodetectors in the sensor measure the amount of 
-						light reflected back, which is inversely proportional to the 
-						amount of light absorbed. Using software algorithms, these reflected 
-						light readings can be translated into both a beats per minute 
-						reading as well as an SPO2 reading. The device requires a 1.8V 
-						nominal power supply from the LDO, a 3.3V LED driver power supply, 
-						and I2C connections to communicate with the host. All of these 
-						nets are run over the 6-pin JST connector that connects the main 
-						PCB to the heart rate daughter board.</p>
-					<h3>3D-Printed Case</h3>
-					<p>Given our size constraints for our custom PCB, we needed to design 
-						a 3D-printable case that would mount the PCB, the LiPo battery, the 
-						heart rate daughter board together in one compact package while 
-						also allowing for cable management and holes for the nylon wrist 
-						straps. To do this, we utilized the four mounting holes of the 
-						screen as our main connecting structure for the entire "sandwich," 
-						running M2.5x20 screws through them and mounted to the underlying 
-						case through 3D-printed cylinders. The LiPo battery sits directly 
-						below the Pico W and was chosen to have a width less than the 
-						distance between the mounting cylinders. We also needed to make 
-						sure the Pico W USB port was easily accessible so we could program 
-						it. The heart rate sensor daughter board is mounted directly behind 
-						the battery using some M2.5x8 screws to secure it to the surface, 
-						whose depth was chosen so that the surface of the heart rate sensor 
-						would sit flush against the wrist. There is also ample room under 
-						the PCB for routing the LiPo and heart rate sensor cables so that 
-						they do not get in the way of normal operation. Rectangular slits 
-						are also lengthwise on the bottom surface where 1" wide nylon straps 
-						were mounted so that the watch could be worn on the wrist. A simple 
-						nylon clip design was also made to secure the strap in place when 
-						worn.</p>
-					<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1">
-					<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2">
-					<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3">
-					<h3>Total Cost</h3>
-					<p>Project specifications required our total unit cost to be under 
-						$125. We selected our parts using this as a guiding constraint. 
-						Even accounting for $15 worth of price slack for passive components, 
-						connectors, straps, hardware, etc., we are still well under the 
-						$125 budget constraint at just around $64 per smartwatch excluding 
-						shipping/customs for the custom PCBs.</p>
-					<table border="1">
+				<h4>PDM Microphone</h4>
+				<p>Purely analog microphones are notoriously hard to get clean 
+					audio out of without significant DSP code, which would have surely 
+					eaten into our resources on the Pico W. Instead, we chose to use 
+					a digital microphone implementing the PDM (pulse density modulation) 
+					two-wire interface so that the Pico need only deal with digital 
+					signals from the microphone. Specifically, we chose the SPH0641LM4H-1 
+					bottom-ported microphone due to its small size and bottom-facing 
+					port, meaning debris would not clog the hole had it been an 
+					upward-facing design. Such considerations are necessary for 
+					smartwatches given they are much more likely to face harsh 
+					conditions than, say, a laptop. The port is also ground-shielded 
+					around the perimeter, meaning it has good noise-reduction 
+					capabilities, again suitable for harsh conditions.</p>
+				<h4>Heart Rate Sensor</h4>
+				<p>A fundamental feature of many modern smartwatches is the ability 
+					to measure heart rate. However, not all watches can also measure 
+					SPO2, or percent oxygen in the blood. Fortunately for us, Texas 
+					Instruments makes an all-in-one heart rate and SPO2 sensor in a 
+					compact package suitable for a smartwatch form factor called the 
+					MAX30102. This device works by incorporating red and IR LEDs that 
+					shine light onto the skin. A certain amount of this light gets 
+					absorbed by the blood based on how much volume is pumped through 
+					the veins. Photodetectors in the sensor measure the amount of 
+					light reflected back, which is inversely proportional to the 
+					amount of light absorbed. Using software algorithms, these reflected 
+					light readings can be translated into both a beats per minute 
+					reading as well as an SPO2 reading. The device requires a 1.8V 
+					nominal power supply from the LDO, a 3.3V LED driver power supply, 
+					and I2C connections to communicate with the host. All of these 
+					nets are run over the 6-pin JST connector that connects the main 
+					PCB to the heart rate daughter board.</p>
+				<h3>3D-Printed Case</h3>
+				<p>Given our size constraints for our custom PCB, we needed to design 
+					a 3D-printable case that would mount the PCB, the LiPo battery, the 
+					heart rate daughter board together in one compact package while 
+					also allowing for cable management and holes for the nylon wrist 
+					straps. To do this, we utilized the four mounting holes of the 
+					screen as our main connecting structure for the entire "sandwich," 
+					running M2.5x20 screws through them and mounted to the underlying 
+					case through 3D-printed cylinders. The LiPo battery sits directly 
+					below the Pico W and was chosen to have a width less than the 
+					distance between the mounting cylinders. We also needed to make 
+					sure the Pico W USB port was easily accessible so we could program 
+					it. The heart rate sensor daughter board is mounted directly behind 
+					the battery using some M2.5x8 screws to secure it to the surface, 
+					whose depth was chosen so that the surface of the heart rate sensor 
+					would sit flush against the wrist. There is also ample room under 
+					the PCB for routing the LiPo and heart rate sensor cables so that 
+					they do not get in the way of normal operation. Rectangular slits 
+					are also lengthwise on the bottom surface where 1" wide nylon straps 
+					were mounted so that the watch could be worn on the wrist. A simple 
+					nylon clip design was also made to secure the strap in place when 
+					worn.</p>
+				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<h3>Total Cost</h3>
+				<p>Project specifications required our total unit cost to be under 
+					$125. We selected our parts using this as a guiding constraint. 
+					Even accounting for $15 worth of price slack for passive components, 
+					connectors, straps, hardware, etc., we are still well under the 
+					$125 budget constraint at just around $64 per smartwatch excluding 
+					shipping/customs for the custom PCBs.</p>
+				<table border="1">
+					<tr>
+						<th>Part</th>
+						<th>Qty/Board</th>
+						<th>Unit Price ($)</th>
+						<th>Total Price ($)</th>
+					</tr>
+					<tr>
+						<td>Main PCB</td>
+						<td>1</td>
+						<td>0.86</td>
+						<td>0.86</td>
+					</tr>
+					<tr>
+						<td>Daughter PCB</td>
+						<td>1</td>
+						<td>0.41</td>
+						<td>0.41</td>
+					</tr>
+					<tr>
+						<td>Pi Pico W</td>
+						<td>1</td>
+						<td>10.99</td>
+						<td>10.99</td>
+					</tr>
+					<tr>
+						<td>OLED</td>
+						<td>1</td>
+						<td>3.60</td>
+						<td>3.60</td>
+					</tr>
+					<tr>
+						<td>3.7V LiPo</td>
+						<td>1</td>
+						<td>3.00</td>
+						<td>3.00</td>
+					</tr>
+					<tr>
+						<td>Microphone</td>
+						<td>1</td>
+						<td>1.06</td>
+						<td>1.06</td>
+					</tr>
+					<tr>
+						<td>3.5mm Jack</td>
+						<td>1</td>
+						<td>1.02</td>
+						<td>1.02</td>
+					</tr>
+					<tr>
+						<td>Heart Rate Sensor</td>
+						<td>1</td>
+						<td>12.04</td>
+						<td>12.04</td>
+					</tr>
+					<tr>
+						<td>Angular Rate Sensor</td>
+						<td>1</td>
+						<td>8.89</td>
+						<td>8.89</td>
+					</tr>
+					<tr>
+						<td>DAC</td>
+						<td>1</td>
+						<td>3.97</td>
+						<td>3.97</td>
+					</tr>
+					<tr>
+						<td>LDO</td>
+						<td>1</td>
+						<td>0.32</td>
+						<td>0.32</td>
+					</tr>
+					<tr>
+						<td>Buttons</td>
+						<td>3</td>
+						<td>0.98</td>
+						<td>2.94</td>
+					</tr>
+					<tr>
+						<td>Misc Passives</td>
+						<td>1</td>
+						<td>~5.00</td>
+						<td>5.00</td>
+					</tr>
+					<tr>
+						<td>Misc Connectors</td>
+						<td>1</td>
+						<td>~5.00</td>
+						<td>5.00</td>
+					</tr>
+					<tr>
+						<td>Misc Hardware</td>
+						<td>1</td>
+						<td>~5.00</td>
+						<td>5.00</td>
+					</tr>
+					<tr>
+						<td colspan="3"><strong>Total</strong></td>
+						<td><strong>64.10</strong></td>
+					</tr>
+				</table>
+    </section>
+
+    <section id="software-design">
+        <h2>Software Design</h2>
+				<h3>Directory Structure</h3>
+				<p>We structure our directory to have a main .c file for our primary 
+					software loop, with a corresponding .h and .c file for each peripheral 
+					we use on our board. For instance, we have a .h/.c pair for our OLED 
+					screen, our heart rate sensor, and our angle rate sensor. Such structure 
+					allows for clear hierarchy and abstraction in our code to make it more 
+					readable and extensible for future iterations. To simplify includes, 
+					we also have a common.h file that every .h file includes that has 
+					common libraries such as stdio, math, string, and common definitions 
+					that are needed by nearly every .c dependency. For our custom screen 
+					images, we have a dat/ subdirectory that contains an array of (x,y) 
+					coordinates for each image we draw on the screen as generated by our 
+					image_convert.py Python script.</p>
+				<h3>Initialization</h3>
+				<p>During initialization, we include a power-on-reset delay of 10 ms 
+					to allow all voltages to stabilize and all peripherals to properly 
+					start up. We then initialize our I2C and SPI busses, as well as 
+					initialize the GPIOs for the select and cycle buttons to be inputs 
+					with internal pull-downs enabled. We also initialize the ADC for 
+					the LiPo voltage reading, as well as call the initialization functions 
+					for the OLED screen from Amin Sahebi's SSH1106 library, the angle rate 
+					sensor, the PDM microphone, and the heart rate sensor. Such initialization 
+					functions write configuration registers within each device to set it 
+					up to take the measurements we desire in our software. Next, we connect 
+					to WiFi using the wifi_udp_init() function to obtain a MAC and IP address 
+					for the Pico, as well as start the UDP threads for sending and receiving 
+					data via UDP packets. In this function, we connect to a beacon, in our 
+					case a WiFi hotspot, and receive our IP address back when connected. The 
+					status of this connection is shown on the OLED screen, and will time out 
+					after 10 seconds if a connection to the pre-programmed SSID in the 
+					wifi_udp.c file cannot be obtained. If successful, we are able to 
+					instantly poll using network time protocol to receive the real time 
+					in EST. A message indicating a connection's success or failure is 
+					written to the screen as a result. Next, the core 1 thread is launched 
+					which handles the main menu checking and other basic functionalities. 
+					Then, the main thread continues to its own loop on core 0 which grabs 
+					the latest text message from UDP and fills the character buffer. The 
+					UDP operations are performed on a separate core since they are quite 
+					resource-intensive and we found that using only a single core caused 
+					interference with the SPI interface to the DAC for reasons unknown.</p>
+				<h3>Button Debouncing</h3>
+				<img src="images/debounce_fsm.png" alt="Button Debounce FSM">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<p>For both the cycle and select buttons, we use an identical FSM as 
+					in our previous labs, where we only detect a true button press upon 
+					two loop iterations of detecting a pressed state, with the same for 
+					a button release. Such a mechanism prevents us from detecting multiple 
+					false button presses as the mechanical switch opens or closes. The 
+					cycle button's main function is to switch between apps in the main 
+					menu, as well as options within submenus when an app is selected. 
+					The select button is used to select a specific app or perform a 
+					function within an app such as starting and stopping the stopwatch 
+					or resetting the step count. The debounce FSM's are checked once per 
+					loop iteration by calling the update_menu() function.</p>
+				<table>
+					<tr>
+						<th>Variable</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>Main_menu_state</td>
+						<td>Enumerated type representing the current app selected</td>
+					</tr>
+					<tr>
+						<td>In_sub_menu</td>
+						<td>1 if the menu FSM is currently entered into a submenu of an app, 0 otherwise</td>
+					</tr>
+					<tr>
+						<td>Sel_pressed</td>
+						<td>Current GPIO state of the SEL button</td>
+					</tr>
+					<tr>
+						<td>Sel_button_state</td>
+						<td>Debounce FSM state for the SEL button</td>
+					</tr>
+					<tr>
+						<td>Cyc_pressed</td>
+						<td>Current GPIO state of the CYC button</td>
+					</tr>
+					<tr>
+						<td>Cyc_button_state</td>
+						<td>Debounce FSM state for the CYC button</td>
+					</tr>
+				</table>
+				<h3>Menu Checking Loop</h3>
+				<img src="images/smartwatch_meu.png" alt="Smartwatch Menu">
+				<style>
+				.scaled-image {
+						width: 50%;
+						height: auto;
+				}
+				</style>
+				<h4>Screen Orientation Check</h4>
+				<p>Upon each loop iteration, we check the current status of the angle 
+					rate sensor to see if the screen needs to be turned on or off in the 
+					check_screen() function. To do this, the check_screen() function 
+					obtains the current value of the x-dimension angle rate, which we 
+					have experimentally determined to be the dimension in which a wrist 
+					rotation occurs when looking at the watch. If this value is greater 
+					than 2.0g, we return a 1, indicating that the screen should turn on 
+					as this corresponds to a rotation of the wrist upward. Conversely, 
+					if the value is less than -2.0g, we return a -1 to indicate the screen 
+					should be turned off as this corresponds to a rotation of the wrist 
+					downward. In any other case, we return a 0, indicating no action 
+					should be taken. This return value is then checked in the main loop. 
+					If a 1 is returned, we set screen_status to 1 to indicate it should 
+					be on, else if a -1 was returned, we set screen_status to 0 to 
+					indicate the screen should be turned off. If screen_status is a 1, 
+					then we display the current state of the menu, else we clear the 
+					screen so that it displays nothing. In this way, we get the same 
+					functionality as off-the-shelf smartwatches that turn off the screen 
+					when the user's wrist is down.</p>
+					<table>
 						<tr>
-							<th>Part</th>
-							<th>Qty/Board</th>
-							<th>Unit Price ($)</th>
-							<th>Total Price ($)</th>
+							<th>Variable</th>
+							<th>Description</th>
 						</tr>
 						<tr>
-							<td>Main PCB</td>
-							<td>1</td>
-							<td>0.86</td>
-							<td>0.86</td>
+							<td>Screen_rot</td>
+							<td>Return variable from check_screen(), 1 = turn screen on, -1 = turn screen off, 0 = no action</td>
 						</tr>
 						<tr>
-							<td>Daughter PCB</td>
-							<td>1</td>
-							<td>0.41</td>
-							<td>0.41</td>
-						</tr>
-						<tr>
-							<td><a href="https://www.raspberrypi.com/products/raspberry-pi-pico/">Pi Pico W</a></td>
-							<td>1</td>
-							<td>10.99</td>
-							<td>10.99</td>
-						</tr>
-						<tr>
-							<td>OLED</td>
-							<td>1</td>
-							<td>3.60</td>
-							<td>3.60</td>
-						</tr>
-						<tr>
-							<td>3.7V LiPo</td>
-							<td>1</td>
-							<td>3.00</td>
-							<td>3.00</td>
-						</tr>
-						<tr>
-							<td>Microphone</td>
-							<td>1</td>
-							<td>1.06</td>
-							<td>1.06</td>
-						</tr>
-						<tr>
-							<td>3.5mm Jack</td>
-							<td>1</td>
-							<td>1.02</td>
-							<td>1.02</td>
-						</tr>
-						<tr>
-							<td>Heart Rate Sensor</td>
-							<td>1</td>
-							<td>12.04</td>
-							<td>12.04</td>
-						</tr>
-						<tr>
-							<td>Angular Rate Sensor</td>
-							<td>1</td>
-							<td>8.89</td>
-							<td>8.89</td>
-						</tr>
-						<tr>
-							<td>DAC</td>
-							<td>1</td>
-							<td>3.97</td>
-							<td>3.97</td>
-						</tr>
-						<tr>
-							<td>LDO</td>
-							<td>1</td>
-							<td>0.32</td>
-							<td>0.32</td>
-						</tr>
-						<tr>
-							<td>Buttons</td>
-							<td>3</td>
-							<td>0.98</td>
-							<td>2.94</td>
-						</tr>
-						<tr>
-							<td>Misc Passives</td>
-							<td>1</td>
-							<td>~5.00</td>
-							<td>5.00</td>
-						</tr>
-						<tr>
-							<td>Misc Connectors</td>
-							<td>1</td>
-							<td>~5.00</td>
-							<td>5.00</td>
-						</tr>
-						<tr>
-							<td>Misc Hardware</td>
-							<td>1</td>
-							<td>~5.00</td>
-							<td>5.00</td>
-						</tr>
-						<tr>
-							<td colspan="3"><strong>Total</strong></td>
-							<td><strong>64.10</strong></td>
+							<td>Screen_status</td>
+							<td>Current power status of the screen, 1 = screen is on, 0 = screen is off</td>
 						</tr>
 					</table>
+					<h4>Real-Time NTP Update</h4>
+					<p>Any smartwatch should be able to display the real time as pulled 
+						from the network. Since we are using the Pico W, we accomplish this 
+						by pulling the time via NTP upon a POR of the watch, and 
+						subsequently update the time based on the internal timer 
+						after this so as to not have to poll the network every second. 
+						We keep a variable, ntp_time_initialized which determines whether 
+						or not the time has been initialized from the network yet. If it 
+						has not, we call get_current_ntp_time() to obtain this time. If the 
+						time has already been initialized, we simply check if the previous 
+						update time subtracted from the current time is one second. If it 
+						has been, we update the seconds, minutes, and hours variables 
+						accordingly. In the event that the Pico W did not connect to the 
+						network upon initialization, we simply use the uptime from power-on 
+						as the time displayed. These updates happen every loop iteration so 
+						that the time displayed is always accurate. If the main_menu_state 
+						is currently on the MM_TIME setting, we display this real time on 
+						the screen, alongside the date as pulled from NTP, the battery 
+						percentage as read from the ADC, as well as an icon indicating the 
+						connection status to the network. The battery percentage is 
+						calculated using a custom map_btt() function which takes in the 
+						minimum and maximum ADC values that correspond to the minimum and 
+						maximum battery voltages of 3.2V and 4.2V, respectively, divided 
+						in half as per the voltage divider on the PCB, as well as the minimum 
+						and maximum battery percentages which is, of course, 0 and 100%. A 
+						simple calculation using equivalent fractions is performed to convert 
+						the raw ADC value into a battery percentage.</p>
+					<h4>Texting</h4>
+					<p>The ability to communicate between devices through texting in our 
+						case is handled by UDP communication. When our watch connects 
+						with the beacon and gathers an established IP address, we also 
+						initialize a port for UDP communication to send and receive messages. 
+						By using the “netcat” command, we can communicate with a hardware 
+						device's specific IP and port if connected to the same service. 
+						The watch has an IP address along with which it is constantly 
+						polling on port 1234 for UDP messages. On our computer, we can 
+						connect to the port and IP of the watch and send messages to it. 
+						The watch interface will then receive the latest message using 
+						the get_latest_udp_message() function. If the latest message is 
+						different from the previous message, then we iterate through 
+						each character and put a newline every 16 characters so that 
+						the message will break onto the next line on the screen.</p>
+					<h4>Heart Rate and SPO2 Monitoring</h4>
+					<p>The code for the MAX30102 is heavily adapted from Sparkfun's 
+						demo code. When the heart rate screen is selected from the main 
+						menu, the max30102_hr_check_for_beat() function is called once 
+						per loop iteration using the latest value of the IR photodetector 
+						obtained via the max30102_get_ir() function. Within this function, 
+						a variety of variables are recorded to keep track of whether the 
+						measured IR signal over time encounters a rising edge as it passes 
+						from a negative to a positive value, with such an event indicating 
+						a heartbeat has just occurred. When this happens, the function 
+						returns true, else it returns false. Back in the main loop, if 
+						the function has returned true, the difference in time from the 
+						last time a heartbeat was detected is taken and used to directly 
+						calculate the latest beats per minute (BPM). Since this value can 
+						fluctuate quite easily, the bpm values, when obtained, are stored 
+						in a ring buffer and averaged out to the final bpm value 
+						displayed to the screen, hr_bpm_avg.</p>
+					<p>If the cycle button is pressed, the sensor toggles to SPO2 mode, 
+						where the percentage of oxygen in the blood is displayed. Since 
+						these values are also quite volatile, a buffer of 100 entries is 
+						used to store the latest red and IR photodetector values. Upon 
+						every loop iteration, the last 75 values are shifted to the front 
+						of the buffer, and 25 new values are read into the buffer by 
+						first waiting until a new sample is ready on both the red and 
+						IR photodetectors using the max30102_avail() function and then 
+						retrieving these values using the max30102_get_red() and 
+						max30102_get_ir() functions. Once the 25 new samples have been 
+						obtained, both buffers are passed to the max30102_read_spo2() 
+						function to calculate the next SPO2 value. To do this, this 
+						function first subtracts the DC mean from the signal formed by 
+						the values in each buffer, taking a moving average of the signal, 
+						and finding the two minimum values. The maximum between these two 
+						minimum values is then taken and then used to do a lookup in a 
+						table of precomputed percentages to output the current SPO2 
+						percentage to be displayed on the screen.</p>
+					<h4>Activity Tracking</h4>
+					<p>To detect a step using the angle rate sensor, we call a the 
+						update_step() function once per loop iteration to check the 
+						current angular rate of change in the z-dimension, which is 
+						the dimension that has been experimentally determined to be 
+						in the direction of the swing of an arm during regular walking. 
+						Specifically, we check the current angular rate of change in the 
+						z-dimension, and check to see if its value is greater than 1.2g, 
+						an experimentally-determined threshold. If this condition is true 
+						and the previous measured value was less than 1.2g, then we 
+						increment a pointer to the step_count variable. In terms of 
+						bodily movements, this corresponds to when the hand is at the 
+						bottom position of the swing and is moving forward, which, with 
+						normal walking, occurs once per step. The current step count is 
+						displayed on the screen when that submenu is selected, and it can 
+						be reset if the select button is pressed when in that submenu. 
+						Otherwise, the step count since power-on will be stored 
+						indefinitely.</p>
+					<h4>Stopwatch</h4>
+					<p>The stopwatch code is similar to the real time code in that a 
+						series of conditionals are used to check if the seconds, minutes, 
+						or hours displayed should be updated, as well as using the 
+						difference in current absolute time to the last updated time 
+						to detect when an update should occur. However, the stopwatch 
+						increments in 100s of milliseconds as opposed to one second as 
+						with the real time. As such, we need an extra variable sw_decisecs 
+						to hold this value. Upon entering the stopwatch submenu, the 
+						stopwatch is not running. Only upon pressing the select button 
+						will it start to run. Pressing the select button again will stop 
+						the stopwatch and keep the time displayed on the screen. Pressing 
+						the select button a third time will resume it. By pressing the 
+						cycle button to exit the stopwatch submenu, the stopwatch values 
+						will reset to 0.</p>
+					<h4>Audio Recording</h4>
+					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram">
+					<style>
+					.scaled-image {
+							width: 50%;
+							height: auto;
+					}
+					</style>
+					<p>Audio recording is accomplished using a serialized order of steps 
+						that first records the audio sample using the Pico PDM library 
+						adapter from hackster.io, storing each sample in a buffer, and then 
+						playing back each sample in the buffer by sending the data to the 
+						DAC using appropriate timing between messages. This sequence of 
+						steps will only be executed if the audio_done_rec variable is false, 
+						indicating we have not completed a recording yet. Once the recording 
+						and subsequent playback is complete, the variable will be set to 
+						true so that the record-and-playback loop does not repeat without user 
+						intervention. If the user then presses the select button after 
+						playback is done, the loop will reset, allowing the user to record 
+						new audio and play it back. The PDM library works by using a PIO 
+						block to generate a 1.024 MHz clock on the PDM clock line that 
+						goes to the microphone. Upon receiving this clock signal, the 
+						microphone will send back digitally-encoded audio data, with the 
+						width of each pulse corresponding to the analog value of the 
+						audio the microphone has recorded. The PIO block will also capture 
+						a single digital value on the PDM data line every clock cycle. The 
+						DMA controller will then capture audio at 8000 samples per second, 
+						meaning each millisecond of data will contain 8 samples. An 
+						interrupt handler which occurs every millisecond will capture 
+						these 8 samples into a 2D audio buffer which stores 8 samples 
+						at each index. When the interrupt handler is called, the outer 
+						index is incremented so that the next millisecond of audio will 
+						be stored in the subsequent entry. Given the RAM limitations of 
+						the Pico W, we have found that we are able to have an outer length 
+						value for this 2D array of 5000, which corresponds to five seconds 
+						of audio since each 8-sample subarray is 1 ms worth of audio. 
+						Additionally, each raw PDM data sample is 1024 bits wide, so an 
+						intermediate filter, OpenPDM2PCM, is used to convert this into 
+						16-bit samples to be stored in each subarray. The provided code 
+						uses a 16 KHz sample rate, but we chose to use 8 KHz to save on 
+						memory. We have found minimal audio degradation from halving the 
+						sample rate. When starting the audio recording phase, we call the 
+						pdm_microphone_start() function to enable the interrupt handler 
+						which fills the array. When the array is full, which is determined 
+						upon checking the current subarray index, the microphone is 
+						disabled using the pdm_microphone_stop() function to disable the 
+						interrupt handler from updating the audio buffer. Finally, the 
+						audio samples can be written to the DAC by simply iterating through 
+						each entry of each subarray one at a time, downconverting the 
+						16-bit samples into 12-bit values suitable for our 12-bit DAC, 
+						and writing the value to the DAC over SPI. The amount of time to 
+						wait between sending each sample is determined by the DELAY 
+						parameter, which is simply the inverse of the audio sample rate, 
+						8 KHz. By setting the delay to this value, we ensure the playback 
+						of the audio sample matches the rate at which it was recorded, 
+						meaning it will sound correct.</p>
+					<h4>Info Scren</h4>
+					<p>A simple info screen is also available which displays the IP address, 
+						MAC address, and UDP port of the smartwatch given it is connected 
+						to the network. This screen is essential for configuring a laptop 
+						to be able to send messages to the watch via our texting app.</p>
+					<h3>Custom Images</h3>
+					<p>Each submenu is represented by a small image when cycling 
+						through each app on the main menu. We generate this image 
+						using our image_convert.py program that takes in a png image 
+						as input, resizes it to a specified number of pixels in the x- and 
+						y-directions, and extracts the pixels that are not empty by checking 
+						if the alpha parameter is not equal to 0. The x and y dimensions of 
+						these extracted pixels are written out to a C-style array such that 
+						the array contains the (x,y) coordinates of pixels to draw to the 
+						screen. Since the screen is monochrome, we need only specify the 
+						(x,y) coordinates and not the color. When displaying these images 
+						via the generated C-arrays stored in the dat/ subdirectory, for 
+						loops can be used to iterate over each pair of (x,y) coordinates 
+						and draw them to the screen.</p>
+    </section>
+
+    <section id="challenges">
+        <h2>Design Challenges</h2>
+        <p>As previously mentioned, one challenge we ran into was not being 
+					able to drive the 8-ohm speaker to a sufficient enough volume using 
+					the MCP4822 DAC. To solve this, we simply replaced the speaker with 
+					a 3.5mm headphone jack so that any audio output device with a built-in 
+					amplifier could be used. This ended up working to our benefit, 
+					however, since including an amplifier on the PCB would have 
+					increased the size, and the speaker's volume would have reduced 
+					the discreteness of the smartwatch we were aiming to achieve.</p>
+				<p>We also intended to use the advertised temperature sensor in the 
+					IMU to report real-time temperature in the user interface. Upon 
+					testing, however, we discovered that the temperature sensor was 
+					not very accurate, and further research on online forums revealed 
+					its purpose was primarily to account for sensor drift, thus the 
+					relative differences in values read from it were intended by the 
+					manufacturer to be used.</p>
+				<p>Another issue we had was related to interference between the WiFi 
+					and SPI modules on the board. We found that using the texting feature 
+					and then switching to the audio recording was causing the loop to 
+					freeze on playback of the audio. Upon debugging, we found that the 
+					spi_write16_blocking() function would work properly for a few transactions, 
+					but freeze up about 100 transactions in. By disabling different 
+					peripherals, we identified the issue as being related to the WiFi 
+					infrastructure. To fix this, we put all WiFi-related functionality 
+					on core 0, and moved all other operations to core 1. By doing this, 
+					we no longer had interference between WiFi and SPI, and the audio 
+					recording worked correctly.</p>
+				<p>When using the PDM microphone for the first time, we found that 
+					the code would also freeze when calling the pdm_microphone_stop() 
+					function. By narrowing down the problem area to the dma_channel_abort() 
+					function call in the pdm_microphone_stop() function, we found that 
+					calling disable_interrupts() before aborting the DMA, and then calling 
+					enable_interrupts() to re-enable them after aborting the DMA fixed the 
+					issue.</p>
     </section>
 
     <section id="results">
