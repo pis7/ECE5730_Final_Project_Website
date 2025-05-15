@@ -79,7 +79,13 @@
 
     <section id="hardware-design">
         <h2>Hardware Design</h2>
-        <img src="images/high_level_block.png" alt="High-Level Block Diagram" class="scaled-image-960">
+				<figure>
+        	<img src="images/high_level_block.png" alt="High-Level Block Diagram" class="scaled-image-960">
+					<figcaption>Hardware block diagram for our design. Components within the Main PCB box are mounted on the main PCB, 
+						and components within the Heart Rate PCB box are mounted on the heart rate daughter board. Components
+					  outside the boards are mounted within the 3D-printed case.</figcaption>
+					</figcaption>
+				</figure>
         <h3>PCB Design</h3>
         <p>Our hardware design is centered around our custom 2-layer PCB built to house 
 					all components in as compact of a package as possible. This compactness 
@@ -114,12 +120,29 @@
 					and IMU on the right side of the board, as well as the three buttons 
 					on the left side, with various decoupling capacitors and resistors 
 					placed in any spare locations on either side of the board.</p>
-        <img src="images/smartwatch_schem.png" alt="Smartwatch Main Board Schematic" class="scaled-image-960">
-				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Main Board Front Copper Layout" class="scaled-image-960">
-				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Main Board Back Copper Layout" class="scaled-image-960">
-				<img src="images/smartwatch_hr_schem.png" alt="Smartwatch Heart Rate Board Schematic" class="scaled-image-960">
-				<img src="images/smartwatch_hr_layout_fcu.png" alt="Smartwatch Heart Rate Board Front Copper Layout" class="scaled-image-240">
-				<img src="images/smartwatch_hr_layout_bcu.png" alt="Smartwatch Heart Rate Board Back Copper Layout" class="scaled-image-240">
+					<figure>
+        		<img src="images/smartwatch_schem.png" alt="Smartwatch Main Board Schematic" class="scaled-image-960">
+						<figcaption>Smartwatch main board schematic</figcaption>
+					</figure>
+					<figure>
+						<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Main Board Front Copper Layout" class="scaled-image-960">
+						<figcaption>Smartwatch main board front copper layout</figcaption>
+					</figure>
+					<figure>
+						<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Main Board Back Copper Layout" class="scaled-image-960">
+						<figcaption>Smartwatch main board back copper layout</figcaption>
+					</figure>
+					<figure style="display: flex; flex-direction: column; align-items: center;">
+						<img src="images/smartwatch_hr_schem.png" alt="Smartwatch Heart Rate Board Schematic" class="scaled-image-960">
+						<figcaption>Smartwatch heart rate board schematic</figcaption>
+					</figure>
+					<figure style="display: flex; flex-direction: column; align-items: center;">
+						<img src="images/smartwatch_hr_layout_fcu.png" alt="Smartwatch Heart Rate Board Front Copper Layout" class="scaled-image-960">
+						<figcaption>Smartwatch heart rate board front copper layout</figcaption>
+					</figure>
+					<figure style="display: flex; flex-direction: column; align-items: center;">
+						<img src="images/smartwatch_hr_layout_bcu.png" alt="Smartwatch Heart Rate Board Back Copper Layout" class="scaled-image-960">
+						<figcaption>Smartwatch heart rate board back copper layout</figcaption>
         <h4>Pico W</h4>
 				<p>A Pico W was necessary for this build as we required WiFi for the 
 					network connection to obtain the real time and incorporate texting 
@@ -241,9 +264,18 @@
 					were mounted so that the watch could be worn on the wrist. A simple 
 					nylon clip design was also made to secure the strap in place when 
 					worn.</p>
-				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scaled-image-960">
-				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scaled-image-960">
-				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image-960">
+				<figure>
+					<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scaled-image-960">
+					<figcaption>3D-Printed case CAD angle 1</figcaption>
+				</figure>
+				<figure>
+					<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scaled-image-960">
+					<figcaption>3D-Printed case CAD angle 2</figcaption>
+				</figure>
+				<figure>
+					<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image-960">
+					<figcaption>3D-Printed case CAD angle 3</figcaption>
+				</figure>
 				<h3>Total Cost</h3>
 				<p>Project specifications required our total unit cost to be under 
 					$125. We selected our parts using this as a guiding constraint. 
@@ -399,7 +431,10 @@
 					resource-intensive and we found that using only a single core caused 
 					interference with the SPI interface to the DAC for reasons unknown.</p>
 				<h3>Button Debouncing</h3>
-				<img src="images/debounce_fsm.png" alt="Button Debounce FSM" class="scaled-image-960">
+				<figure>
+					<img src="images/debounce_fsm_diagram.png" alt="Button Debounce FSM Diagram" class="scaled-image-960">
+					<figcaption>Button debounce FSM diagram</figcaption>
+				</figure>
 				<p>For both the cycle and select buttons, we use an identical FSM as 
 					in our previous labs, where we only detect a true button press upon 
 					two loop iterations of detecting a pressed state, with the same for 
@@ -442,7 +477,10 @@
 					</tr>
 				</table>
 				<h3>Menu Checking Loop</h3>
-				<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scaled-image-960">
+				<figure>
+					<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scaled-image-960">
+					<figcaption>Smartwatch menu flow diagram</figcaption>
+				</figure>
 				<h4>Screen Orientation Check</h4>
 				<p>Upon each loop iteration, we check the current status of the angle 
 					rate sensor to see if the screen needs to be turned on or off in the 
@@ -937,7 +975,10 @@ if (sw_en) {
 						</tr>
 					</table>
 					<h4>Audio Recording</h4>
-					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-240">
+					<figure style="display: flex; flex-direction: column; align-items: center;">
+						<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-240">
+						<figcaption>PDM microphone processing block diagram</figcaption>
+					</figure>
 					<p>Audio recording is accomplished using a serialized order of steps 
 						that first records the audio sample using the Pico PDM library 
 						adapted from hackster.io, storing each sample in a buffer, and then 
