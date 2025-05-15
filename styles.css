@@ -2,3 +2,8 @@
   width: 960px;
   height: auto;
 }
+
+.scaled-image-480 {
+  width: 480px;
+  height: auto;
+}
