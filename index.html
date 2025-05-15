@@ -404,7 +404,7 @@
 					resource-intensive and we found that using only a single core caused 
 					interference with the SPI interface to the DAC for reasons unknown.</p>
 				<h3>Button Debouncing</h3>
-				<img src="images/debounce_fsm.png" alt="Button Debounce FSM">
+				<img src="images/debounce_fsm.png" alt="Button Debounce FSM" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
@@ -763,10 +763,10 @@
 						</tr>
 					</table>
 					<h4>Audio Recording</h4>
-					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image">
+					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-tiny">
 					<style>
 					.scaled-image {
-							width: 10%;
+							width: 20%;
 							height: auto;
 					}
 					</style>
@@ -908,12 +908,110 @@
 
     <section id="results">
         <h2>Results of Design</h2>
-        <p>Summarize the findings and outcome of your project.</p>
+        <p>The accuracy of our data is something our group took pride in. Our 
+					real time clock accuracy was checked by comparing against the time on 
+					any WiFi-connected device. After leaving the watch on for hours, we 
+					confirmed that the times still matched. A similar methodology was used 
+					for our stopwatch, for which we compared it against the stopwatch app 
+					on an iPhone. For our heart-rate sensor, we compared the reading against 
+					those provided by an Apple Watch, and found the measurements to be 
+					within 10 BPM, which is quite accurate given the complexity of the 
+					algorithm. While we did not have access to a dedicated pulse oximeter, 
+					all three of us knew our appropriate percentages were above 98%, and 
+					our SPO2 readings always showed at or above this value for all of us. 
+					Step tracking was verified by walking a predetermined number of steps 
+					that we counted manually and ensuring the reading on the watch matched 
+					it.</p>
+				<p>Additionally, ensuring safety with our watch was paramount for our 
+					design. Our first priority when designing the watch was to make it 
+					something practical the everyday consumer could use with limited 
+					drawbacks. When designing the 3D mount and straps for the watch, we 
+					were sure to make the design as sleek and comfortable as possible 
+					while fitting everything inside the case. This included making sure 
+					the screw heads were mounted against the wrist, instead of the other 
+					way around which would cause the ends of the screws to dig into the 
+					wrist. For our prototype, we made an open shell to encase everything, 
+					but for a final design, we would provide some waterproofing and enclose 
+					the shell to make sure all of the electronics were safe. The 
+					rechargeability of the battery is something else we made sure to 
+					include when making the design in that the Molex connector is easily 
+					accessible. As for the sensors utilized, none have been noted to cause 
+					any harm to the user, so we can be sure there are no long-term risks 
+					associated with our design.</p>
+				<p>As for usability, one aspect we aimed for was cost-efficiency, meaning 
+					we used parts that would get the results we wanted accurately without 
+					having to send much money. The placement of the components on the PCB 
+					as described in the hardware section were also carefully considered to 
+					allow for easy access of the buttons, as well as clear readability of 
+					all on-screen elements. Finally, we originally intended for the Pico W 
+					to connect to a stationary WiFi network, but eventually decided that 
+					this would limit its range to a singular network. This led us to make 
+					the decision to connect the watch using a phone's hotspot as most 
+					people who would have a smartwatch would likely have a smartphone 
+					to pair with it.</p>
     </section>
 
     <section id="conclusions">
         <h2>Conclusions</h2>
-        <p>Provide key takeaways and future improvements.</p>
+        <p>In reflection, the goals we set out to meet for this project were 
+					achieved. When pitching our smartwatch, our group aimed to create a 
+					custom PCB that would incorporate the Pico W, an OLED screen display, 
+					an angular rate sensor, mic and speaker, heart rate sensing, and a 3D 
+					printed case to hold all the components. </p>
+				<p>We decided to measure the success of our project in three parts. 
+					These aspects would take into account the effectiveness of the watch 
+					in reference to our original goal of “health tracking,” if we were 
+					able to effectively use the sensors and components we aimed to 
+					initially include, and the accuracy of the data we were able to 
+					collect from the sensors. Another skill that we took away from this 
+					project was the ability to distribute work among all three members 
+					to create a cohesive project utilizing each other's strengths while 
+					also learning new skills in the process. </p>
+				<p>The original motive of this project was to take inspiration from 
+					each of our passions for health and to partner it with the field of 
+					electronics, hence how we came to the idea of making a smartwatch. 
+					When defining the constraints for the project, we wanted to make 
+					sure we could measure someone's everyday health with sensors along 
+					with using WiFi to enhance the features included. With that being 
+					said, we did have some important lessons learned during this project 
+					that contributed to some changes in our original design. </p>
+				<p>During the first prototype of our PCB and soldering our components, 
+					we found some of the components' packages to be quite challenging 
+					to mount such as the IMU. Luckily, we had access to a hot plate 
+					and solder paste which meant we did not have to rely solely on hand 
+					soldering. Additionally, we found that the lack of an on-board 
+					amplifier prevented us from using a standard 8-ohm speaker. As 
+					such, we ended up using a standard 3.5mm headphone jack to pipe 
+					the audio out to a standard audio interface, which worked just fine 
+					for our application as a lightweight pair of earbuds could be easily 
+					plugged in and not add any bulk to the device.</p>
+				<p>In the mix of the software and hardware interaction, we found that 
+					data transmission was the biggest challenge as there was limited 
+					documentation for implementation. One example of an obstacle we 
+					faced coming into the smartwatch project was that we expected it 
+					would be relatively easy to communicate with two watches as 
+					walkie-talkies. There were two main limiting factors, that being 
+					Pico's limited pool of RAM and the integration of TCP and UDP 
+					together. With this, we managed to find some ways to integrate 
+					features that would compensate. This brought about the texting 
+					feature and the ability to record and playback audio samples up 
+					to 5 seconds. While these objectives were not originally planned, 
+					our incorporation of these shows our adaptability to solving 
+					problems within the scope of our 5 week project window. </p>
+				<p>With the conclusion of our prototype of a smart watch, 
+					we are proud to see the work we have put in come to 
+					fruition under both tight time as well as budget constraints. 
+					We had established a system capable of a real-time clock, audio 
+					and microphone accessibility, heart rate and oxygen tracking, 
+					step count, stopwatch functionality, and text communications all 
+					with a rechargeable battery and a Raspberry Pi Pico W. This system 
+					made use of our experiences in PCB and circuit design, sensor data 
+					extraction, and microcontroller programming. We also enhanced our 
+					knowledge of communication protocols and physics related knowledge 
+					of how sensors can monitor and interact with metrics related to our 
+					human health. Our team has met the goals we aimed to achieve coming 
+					into this project and produced a completely functional product within 
+					just a 5 week period. </p>
     </section>
 
     <footer>
