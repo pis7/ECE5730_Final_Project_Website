@@ -27,8 +27,16 @@
             display: block;
             margin: 10px 0;
         }
+				.scaled-image-960 {
+					width: 960px;
+					height: auto;
+				}
+
+				.scaled-image-240 {
+					width: 240px;
+					height: auto;
+				}
     </style>
-		<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 	<div class="container">
@@ -60,7 +68,7 @@
         <h2>Hardware Design</h2>
         <img src="images/high_level_block.png" alt="High-Level Block Diagram" class="scaled-image-960">
         <h3>PCB Design</h3>
-        <p>Our hardware design is centered around our custom PCB built to house 
+        <p>Our hardware design is centered around our custom 2-layer PCB built to house 
 					all components in as compact of a package as possible. This compactness 
 					was our driving design principle as we did not want our watch to be 
 					unwieldy on the wrist, and we were aiming to have a similar form factor 
@@ -86,16 +94,19 @@
 					and the speaker/DAC output at the top right. Next, we placed the 1.8V 
 					LDO and LiPo connector on the bottom left of the board, and the 6-pin 
 					JST connector for the heart rate daughter board on the bottom right. 
-					For the heart rate sensor itself, we made a separate "daughter" board 
+					For the heart rate sensor itself, we made a separate 2-layer "daughter" board 
 					for it as well as the decoupling capacitors since it needs to press 
 					tightly against the skin in order to work properly, and this could 
 					not be accomplished if put on the main board. We also placed the DAC 
 					and IMU on the right side of the board, as well as the three buttons 
 					on the left side, with various decoupling capacitors and resistors 
 					placed in any spare locations on either side of the board.</p>
-        <img src="images/smartwatch_schem.png" alt="Smartwatch Schematic" class="scaled-image-960">
-				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Front Copper Layout" class="scaled-image-960">
-				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Back Copper Layout" class="scaled-image-960">
+        <img src="images/smartwatch_schem.png" alt="Smartwatch Main Board Schematic" class="scaled-image-960">
+				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Main Board Front Copper Layout" class="scaled-image-960">
+				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Main Board Back Copper Layout" class="scaled-image-960">
+				<img src="images/smartwatch_hr_schem.png" alt="Smartwatch Heart Rate Board Schematic" class="scaled-image-960">
+				<img src="images/smartwatch_hr_layout_fcu.png" alt="Smartwatch Heart Rate Board Front Copper Layout" class="scaled-image-240">
+				<img src="images/smartwatch_hr_layout_bcu.png" alt="Smartwatch Heart Rate Board Back Copper Layout" class="scaled-image-240">
         <h4>Pico W</h4>
 				<p>A Pico W was necessary for this build as we required WiFi for the 
 					network connection to obtain the real time and incorporate texting 
@@ -247,61 +258,61 @@
 						<td>0.41</td>
 					</tr>
 					<tr>
-						<td>Pi Pico W</td>
+						<td><a href="https://www.amazon.com/Raspberry-Pi-Pico-Wireless-Bluetooth/dp/B0B5H17CMK/ref=sr_1_5?crid=PQTLCEFRZFWQ&dib=eyJ2IjoiMSJ9.7CmGzjTpLh5397VPR9ybT24Rc46hgyc287VUutT3S_Hk_iYi6MDYZaeb27zuHGqsviXrW4IK106l5JvpCLEjaztyJnYnUnzaXRj92VMAag4v_F2axztdBShKbl8D4vLzOgUbH5ya1QE5afMxQl6sxc7F-P1__mm_0toeoWu9mbqr_RiHqgiO8z3FdsXiiEKijFE4wKdVrbCoIGt26voltr7eBae5wWKqwgG3SC3KG7c.H2ZAco2Q31ao8neRRp0-VtoJMo13mh8TDgkUIxXRfmk&dib_tag=se&keywords=pico+w&qid=1747179213&sprefix=pico+%2Caps%2C112&sr=8-5">Pi Pico W</a></td>
 						<td>1</td>
 						<td>10.99</td>
 						<td>10.99</td>
 					</tr>
 					<tr>
-						<td>OLED</td>
+						<td><a href="https://www.amazon.com/Hosyond-Display-Compatible-Arduino-Raspberry/dp/B0C3L7N917/ref=sr_1_2_sspa?crid=1WM1DPDK5HODY&dib=eyJ2IjoiMSJ9.58hVCpHB84ehQZ-yEi0ombKegJy6sMGLFEVEkkcjVHg4PfgzQYJ7BEIyE65x5gsMs-J2wjjdUv9z2kwAahZc94cNX-6tHFWGQ6pwWcOS8lyzug6k3PMby1HJSWEiQqHGBLEa0_AM9Hd-xiumvuF2FxaQV5GMH60JStK7Na2-g_I07cEHM-FO6GbRAUZ-w2me0AUE9b4p9mYn2lDwTjgYXoaJUMQ_K2QEVbU8o6hUTqk.mujYzHtN9jCkAToKsJz2Ax4WSQaaXe22_YFtI2-6izo&dib_tag=se&keywords=oled%2Bscreen&qid=1742094816&sprefix=oled%2Bscreen%2Caps%2C135&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1">OLED Screen</a></td>
 						<td>1</td>
 						<td>3.60</td>
 						<td>3.60</td>
 					</tr>
 					<tr>
-						<td>3.7V LiPo</td>
+						<td><a href="https://www.amazon.com/sea-jump-Lithium-Quadcopter-Aircraft/dp/B07SLLVQ2Q/ref=sr_1_6?crid=3HDGDGMWOF7RC&dib=eyJ2IjoiMSJ9.MPvpqWiGH3hTueLyQogqhr8ah2V-7YexDvRKFDypc_S8Hcqvq8ECRT3QDh6EiOJzUyRH0yISLxLGyprnw1CPiTgSXL1d-HfbflJKEJx5Fsk2b0rmBIxx3Jtkda1p4REeGWvSOdz9nvSmkzRsTolBDWjX9bpWBpvfuElRYWU8n-qrjpRkfqDZQYJB5_JX2emoilnSyRkqFFCQDmoJEzHJz1h3kAFvP50mMD3P3sKUXxIYFcrBMHiA-fjL06q9-XBlz6YIz_cSl6cEvwF2F10me6VKSWiGchkp8OeKnXsMVJ8.xLy4sHIKKNsBuSyABoIyqjQzScRg5trvZP6ChcgByx8&dib_tag=se&keywords=3.7V+lipo+battery&qid=1743805949&sprefix=3.7v+lipo+battery%2Caps%2C110&sr=8-6">1S LiPo</a></td>
 						<td>1</td>
 						<td>3.00</td>
 						<td>3.00</td>
 					</tr>
 					<tr>
-						<td>Microphone</td>
+						<td><a href="https://www.digikey.com/en/products/detail/syntiant/SPH0641LM4H-1/5052769">PDM Microphone</a></td>
 						<td>1</td>
 						<td>1.06</td>
 						<td>1.06</td>
 					</tr>
 					<tr>
-						<td>3.5mm Jack</td>
+						<td><a href="https://www.digikey.com/en/products/detail/same-sky-formerly-cui-devices/SJ3-35094AG/24627966">3.5mm Jack</a></td>
 						<td>1</td>
 						<td>1.02</td>
 						<td>1.02</td>
 					</tr>
 					<tr>
-						<td>Heart Rate Sensor</td>
+						<td><a href="https://www.digikey.com/en/products/detail/analog-devices-inc-maxim-integrated/MAX30102EFD-T/6188734?s=N4IgTCBcDaIAQFkCCANAzABgIwbAUQDEARAagBUQBdAXyA">Heart Rate/SPO2 Sensor</a></td>
 						<td>1</td>
 						<td>12.04</td>
 						<td>12.04</td>
 					</tr>
 					<tr>
-						<td>Angular Rate Sensor</td>
+						<td><a href="https://www.digikey.com/en/products/detail/stmicroelectronics/I3G4250DTR/5268011">Angle Rate Sensor</a></td>
 						<td>1</td>
 						<td>8.89</td>
 						<td>8.89</td>
 					</tr>
 					<tr>
-						<td>DAC</td>
+						<td><a href="https://www.digikey.com/en/products/detail/microchip-technology/MCP4822-E-SN/951466">DAC</a></td>
 						<td>1</td>
 						<td>3.97</td>
 						<td>3.97</td>
 					</tr>
 					<tr>
-						<td>LDO</td>
+						<td><a href="https://www.digikey.com/en/products/detail/texas-instruments/TLV76701DRVR/10434713?s=N4IgTCBcDaIC4BsBuB2AbCgDARgCYCcl8QBdAXyA">LDO</a></td>
 						<td>1</td>
 						<td>0.32</td>
 						<td>0.32</td>
 					</tr>
 					<tr>
-						<td>Buttons</td>
+						<td><a href="https://www.digikey.com/en/products/detail/omron-electronics-inc-emc-div/B3U-1000P-B/2567950">Buttons</td>
 						<td>3</td>
 						<td>0.98</td>
 						<td>2.94</td>
@@ -496,6 +507,51 @@
 						and maximum battery percentages which are, of course, 0% and 100%. A 
 						simple calculation using equivalent fractions is performed to convert 
 						the raw ADC value into a battery percentage.</p>
+					<pre>
+						<code>
+						// We have NTP time and this is the first initialization 
+						if (!ntp_time_initd && ntp_time_ready) {
+							datetime_t now;
+							get_current_ntp_time(&now);
+							rt_hours = now.hour;
+							rt_mins = now.min;
+							rt_secs = now.sec;
+							rt_month = now.month;
+							day = now.day;
+							prev_rt_secs = rt_secs;
+							ntp_time_initd = true;
+							rt_last_update = get_absolute_time();
+
+						// We have NTP time and we have already initialized
+						} else if (ntp_time_initd) {
+							if (absolute_time_diff_us(rt_last_update, get_absolute_time()) >= 1000000) {
+								sprintf(prev_rt_time_str, "%s", rt_time_str);
+								rt_last_update = get_absolute_time();
+								rt_secs++;
+								if (rt_secs > 59) {
+									rt_secs = 0;
+									rt_mins++;
+								}
+								if (rt_mins > 59) {
+									rt_mins = 0;
+									rt_hours++;
+								}
+								if (rt_hours > 24){
+									rt_hours = 0;
+								}
+							}
+
+						// NTP time has not been acquired - default to uptime
+						} else {
+							sprintf(prev_rt_time_str, "%s", rt_time_str);
+							rt_uptime_ms = time_us_64() / 1000;
+							rt_hours = (rt_uptime_ms / (1000 * 60 * 60)) % 24;
+							rt_mins = (rt_uptime_ms / (1000 * 60)) % 60;
+							rt_secs = (rt_uptime_ms / 1000) % 60;
+						}
+						</code>
+					</pre>
+					<table border
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -542,6 +598,28 @@
 						different from the previous message, then we iterate through 
 						each character and put a newline every 16 characters so that 
 						the message will break onto the next line of the screen.</p>
+					<pre>
+						<code>
+							// Core 0 - handle texting and WiFi interface
+							while(1) {
+								const char *msg = get_latest_udp_message();
+								if (strcmp(msg, last_message) != 0) {
+									int j = 0;
+									int ypos = 10;
+									for (int i = 0; i < BEACON_MSG_LEN_MAX && msg[i] != '\0' && 
+											msg[i] != '\r' && msg[i] != '\n'; i++) {
+										if (msg[i] >= 32 && msg[i] <= 126) {
+											filtered_message[j++] = msg[i];
+											if (j % 16 == 0)
+												filtered_message[j++] = '\n';
+										}
+									}
+									filtered_message[j] = '\0';
+									strncpy(last_message, filtered_message, BEACON_MSG_LEN_MAX);
+								}
+							}
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -592,6 +670,73 @@
 						minimum values is then taken and used to do a lookup in a 
 						table of precomputed percentages to output the current SPO2 
 						percentage to be displayed on the screen.</p>
+					<pre>
+						<code>
+							 // Currently displaying heart rate
+							if (hr_screen) {
+
+								// If there is a new heart beat
+								if (max30102_hr_check_for_beat(max30102_get_ir(&hr_sense), &hr_signal, fir_coeffs)) {
+									long hr_bpm_delta = to_ms_since_boot(get_absolute_time()) - hr_last_beat;
+									hr_last_beat = to_ms_since_boot(get_absolute_time());            
+									hr_bpm = 60 / (hr_bpm_delta / 1000.0);
+									if (hr_bpm < 255 && hr_bpm > 20) {
+
+										// Store this reading in the array
+										hr_rates[hr_rate_spot++] = (uint8_t)hr_bpm;
+
+										// Wrap variable
+										hr_rate_spot %= HR_RATE_SZ;
+							
+										// Take average of readings
+										hr_bpm_avg = 0;
+										for (uint8_t x = 0 ; x < HR_RATE_SZ ; x++)
+											hr_bpm_avg += hr_rates[x];
+										hr_bpm_avg /= HR_RATE_SZ;
+									}
+								}
+								sprintf(screen_str, "BPM: %d", hr_bpm_avg);
+								SSH1106_GotoXY(15, 25);
+								SSH1106_Puts(screen_str, &Font_11x18, 1);
+							} else {
+
+								// Shift SPO2 buffer
+								for (int i = SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
+									spo2_ir_buff[i - SPO2_BUFF_LEN/4] = spo2_ir_buff[i];
+									spo2_red_buff[i - SPO2_BUFF_LEN/4] = spo2_red_buff[i];
+								}
+
+								// Fill in new values to SPO2 buffers
+								for (int i = 3*SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
+
+									// Wait until new sample is available
+									while (!max30102_avail(&hr_sense)) max30102_hr_check(&hr_sense);
+									spo2_red_buff[i] = max30102_get_red(&hr_sense);
+									spo2_ir_buff[i] = max30102_get_ir(&hr_sense);
+									max30102_next_sample(&hr_sense);
+
+									// Perform SPO2 calculation
+									max30102_read_spo2(
+										spo2_ir_buff, 
+										SPO2_BUFF_LEN, 
+										spo2_red_buff, 
+										&spo2_rdg, 
+										&spo2_valid
+									);
+								}
+
+								// Only display valid SPO2 value
+								if (!spo2_valid) {
+									sprintf(screen_str, "SPO2: %d", prev_spo2_rdg);
+								} else {
+									sprintf(screen_str, "SPO2: %d", spo2_rdg);
+									prev_spo2_rdg = spo2_rdg;
+								}
+								SSH1106_GotoXY(15, 25);
+								SSH1106_Puts(screen_str, &Font_11x18, 1);
+							}
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -683,6 +828,16 @@
 						be reset if the select button is pressed when in the app. 
 						Otherwise, the step count since power-on will be stored 
 						indefinitely.</p>
+					<pre>
+						<code>
+							void update_step(float* prev_z, int* step_count) {
+								float z = get_z_rateDPS();
+								if (z > 1.2 && *prev_z <= 1.2)
+									(*step_count)++;  
+								*prev_z = z;
+							}
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -712,6 +867,38 @@
 						the select button another time will resume it. By pressing the 
 						cycle button to exit the stopwatch app, the stopwatch values 
 						will reset to 0.</p>
+					<pre>
+						<code>
+							// Update stopwatch values only if enabled
+							if (sw_en) {
+								if (sw_decisecs > 9) {
+									sw_decisecs = 0;
+									sw_secs++;
+								}
+								if (sw_secs > 59) {
+									sw_secs = 0;
+									sw_mins++;
+								}
+								if (sw_mins > 59) {
+									sw_mins = 0;
+									sw_hours++;
+								}
+								if (sw_hours > 9) {
+									sw_hours = 0;
+								}
+
+								// Only update screen every 100ms
+								if (absolute_time_diff_us(sw_last_update, get_absolute_time()) >= 100000) {
+									sw_last_update = get_absolute_time();
+									sprintf(screen_str, "%01u:%02u:%02u.%d", sw_hours, sw_mins, sw_secs, sw_decisecs);
+									SSH1106_GotoXY(20, 25);
+									SSH1106_Puts(screen_str, &Font_11x18, 1);
+									SSH1106_UpdateScreen();
+									sw_decisecs++;
+								}
+							}
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -791,6 +978,46 @@
 					  problem of the WiFi connection interfering with the SPI transactions
 					  to the DAC as discussed in further detail in our Challenges 
 						section. </p>
+					<pre>
+						<code>
+							// If we are not done recording, start recording
+							if (!audio_done_rec) {
+								SSH1106_Clear();
+								sprintf(screen_str, "Recording");
+								SSH1106_GotoXY(20, 25);
+								SSH1106_Puts(screen_str, &Font_11x18, 1);
+								SSH1106_UpdateScreen();
+								audio_samp_idx_outer = 0;
+
+								// Start recording from PDM microphone
+								pdm_microphone_start();
+								while (audio_samp_idx_outer < MIC_NUM_BURSTS) tight_loop_contents();
+								pdm_microphone_stop();
+								SSH1106_Clear();
+								sprintf(screen_str, "Playback");
+								SSH1106_GotoXY(20, 25);
+								SSH1106_Puts(screen_str, &Font_11x18, 1);
+								SSH1106_UpdateScreen();
+								audio_samp_idx_outer = 0;
+								audio_samp_idx_inner = 0;
+
+								// Start playback from stored samples to DAC
+								while (audio_samp_idx_outer < MIC_NUM_BURSTS) {
+									dac_value = (audio_samp_buff[audio_samp_idx_outer][audio_samp_idx_inner++] + 32768) >> 4;
+									dac_msg = (DAC_CFG_A | (dac_value & 0x0FFF));
+									spi_write16_blocking(SPI_PORT, &dac_msg, 1);
+									if (audio_samp_idx_inner == MIC_SAMP_BUFF_SZ) {
+										audio_samp_idx_inner = 0;
+										audio_samp_idx_outer++;
+									}
+									busy_wait_us(DAC_DELAY);
+								}
+								audio_samp_idx_outer = 0;
+								audio_samp_idx_inner = 0;
+								audio_done_rec = 1;
+							}
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
