@@ -26,16 +26,17 @@
         <h1>ECE 5730 Spring 2025 Final Project: Smartwatch</h1>
     </header>
 
+		<style>
+		.scaled-image-960 {
+				width: 960px;
+				height: auto;
+		}
+		</style>
+
     <section id="introduction">
         <h2>Project Introduction</h2>
 				<p>Intro here</p>
-        <img src="images/group.jpg" alt="Project Introduction" class="scaled-image-tiny">
-				<style>
-				.scaled-image-tiny {
-						width: 20%;
-						height: auto;
-				}
-				</style>
+        <img src="images/group.jpg" alt="Project Introduction" class="scaled-image-960">
 				<iframe 
 					width="960" 
 					height="540" 
@@ -54,13 +55,7 @@
 
     <section id="hardware-design">
         <h2>Hardware Design</h2>
-        <img src="images/high_level_block.png" alt="High-Level Block Diagram" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
+        <img src="images/high_level_block.png" alt="High-Level Block Diagram" class>
         <h3>PCB Design</h3>
         <p>Our hardware design is centered around our custom PCB built to house 
 					all components in as compact of a package as possible. This compactness 
@@ -95,27 +90,9 @@
 					and IMU on the right side of the board, as well as the three buttons 
 					on the left side, with various decoupling capacitors and resistors 
 					placed in any spare locations on either side of the board.</p>
-        <img src="images/smartwatch_schem.png" alt="Smartwatch Schematic" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
-				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Front Copper Layout" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
-				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Back Copper Layout" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
+        <img src="images/smartwatch_schem.png" alt="Smartwatch Schematic" class="scale-image-960">
+				<img src="images/smartwatch_layout_fcu.png" alt="Smartwatch Front Copper Layout" class="scale-image-960">
+				<img src="images/smartwatch_layout_bcu.png" alt="Smartwatch Back Copper Layout" class="scale-image-960">
         <h4>Pico W</h4>
 				<p>A Pico W was necessary for this build as we required WiFi for the 
 					network connection to obtain the real time and incorporate texting 
@@ -237,27 +214,9 @@
 					were mounted so that the watch could be worn on the wrist. A simple 
 					nylon clip design was also made to secure the strap in place when 
 					worn.</p>
-				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
-				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
-				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
+				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scale-image-960">
+				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scale-image-960">
+				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scale-image-960">
 				<h3>Total Cost</h3>
 				<p>Project specifications required our total unit cost to be under 
 					$125. We selected our parts using this as a guiding constraint. 
@@ -413,13 +372,7 @@
 					resource-intensive and we found that using only a single core caused 
 					interference with the SPI interface to the DAC for reasons unknown.</p>
 				<h3>Button Debouncing</h3>
-				<img src="images/debounce_fsm.png" alt="Button Debounce FSM" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
+				<img src="images/debounce_fsm.png" alt="Button Debounce FSM" class="scale-image-960">
 				<p>For both the cycle and select buttons, we use an identical FSM as 
 					in our previous labs, where we only detect a true button press upon 
 					two loop iterations of detecting a pressed state, with the same for 
@@ -462,13 +415,7 @@
 					</tr>
 				</table>
 				<h3>Menu Checking Loop</h3>
-				<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scaled-image">
-				<style>
-				.scaled-image {
-						width: 50%;
-						height: auto;
-				}
-				</style>
+				<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scale-image-960">
 				<h4>Screen Orientation Check</h4>
 				<p>Upon each loop iteration, we check the current status of the angle 
 					rate sensor to see if the screen needs to be turned on or off in the 
@@ -771,13 +718,7 @@
 						</tr>
 					</table>
 					<h4>Audio Recording</h4>
-					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-tiny">
-					<style>
-					.scaled-image-tiny {
-							width: 20%;
-							height: auto;
-					}
-					</style>
+					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-960">
 					<p>Audio recording is accomplished using a serialized order of steps 
 						that first records the audio sample using the Pico PDM library 
 						adapted from hackster.io, storing each sample in a buffer, and then 
