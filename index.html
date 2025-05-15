@@ -453,7 +453,7 @@
 					</tr>
 				</table>
 				<h3>Menu Checking Loop</h3>
-				<img src="images/smartwatch_meu.png" alt="Smartwatch Menu" class="scaled-image">
+				<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
@@ -521,6 +521,37 @@
 						and maximum battery percentages which is, of course, 0 and 100%. A 
 						simple calculation using equivalent fractions is performed to convert 
 						the raw ADC value into a battery percentage.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>ntp_time_initd</td>
+							<td>1 if the NTP time has been initialized using get_current_ntp_time(), 0 otherwise</td>
+						</tr>
+						<tr>
+							<td>rt_<hours, mins, secs></td>
+							<td>Holds the value of the real time hours, minutes, or seconds</td>
+						</tr>
+						<tr>
+							<td>prev_rt_secs</td>
+							<td>Holds the previous value of rt_secs - when rt_secs is different than this, the screen is updated</td>
+						</tr>
+						<tr>
+							<td>ntp_time_ready</td>
+							<td>Indicates if the UDP module is ready to grab the NTP time</td>
+						</tr>
+						<tr>
+							<td>rt_last_update</td>
+							<td>The time uptime at which the last real time update occurred, used to check 
+								if the displayed string should be updated which happens every second</td>
+						</tr>
+						<tr>
+							<td>rt_uptime_ms</td>
+							<td>Used to keep track of uptime in the event there was an unsuccessful WiFi connection</td>
+						</tr>
+					</table>
 					<h4>Texting</h4>
 					<p>The ability to communicate between devices through texting in our 
 						case is handled by UDP communication. When our watch connects 
@@ -536,6 +567,21 @@
 						different from the previous message, then we iterate through 
 						each character and put a newline every 16 characters so that 
 						the message will break onto the next line on the screen.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>msg</td>
+							<td>Holds the latest UDP message as a character array</td>
+						</tr>
+						<tr>
+							<td>filtered_message</td>
+							<td>Holds the latest UDP message as a character array with newlines 
+								and EOF's inserted for proper displaying on the screen</td>
+						</tr>
+					</table>
 					<h4>Heart Rate and SPO2 Monitoring</h4>
 					<p>The code for the MAX30102 is heavily adapted from Sparkfun's 
 						demo code. When the heart rate screen is selected from the main 
@@ -571,6 +617,80 @@
 						minimum values is then taken and then used to do a lookup in a 
 						table of precomputed percentages to output the current SPO2 
 						percentage to be displayed on the screen.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>hr_screen</td>
+							<td>1 if the app selection is on BPM, 0 if it is on SPO2</td>
+						</tr>
+						<tr>
+							<td>hr_sense</td>
+							<td>A structure containing a buffer for red and IR photodetector 
+								values, as well as a head and tail pointer for the buffers</td>
+						</tr>
+						<tr>
+							<td>hr_signal</td>
+							<td>A structure holding parameters for the IR signal over time, 
+								including AC max and min, value of the positive and negative 
+								edge, etc.</td>
+						</tr>
+						<tr>
+							<td>fir_coeffs</td>
+							<td>A constant array holding pre-defined coefficients for 
+								the FIR filter used for measuring BPM</td>
+						</tr>
+						<tr>
+							<td>hr_last_beat</td>
+							<td>The time at which the last heart beat occurred</td>
+						</tr>
+						<tr>
+							<td>hr_bpm_delta</td>
+							<td>The difference in time between the current 
+								heart beat and the previous heart beat</td>
+						</tr>
+						<tr>
+							<td>hr_bpm</td>
+							<td>The instantaneous bpm as calculated with hr_bpm_delta</td>
+						</tr>
+						<tr>
+							<td>hr_rates</td>
+							<td>Array holding the last HR_RATE_SZ BPM values</td>
+						</tr>
+						<tr>
+							<td>hr_rate_spot</td>
+							<td>The index of the next entry in hr_rates</td>
+						</tr>
+						<tr>
+							<td>hr_bpm_avg</td>
+							<td>The average of the BPM's stored in hr_rates, this 
+								is the BPM value displayed to the screen</td>
+						</tr>
+						<tr>
+							<td>spo2_ir_buff</td>
+							<td>Buffer holding the last SPO2_BUFF_LEN IR 
+								photodetector values</td>
+						</tr>
+						<tr>
+							<td>spo2_red_buff</td>
+							<td>Buffer holding the last SPO2_BUFF_LEN red 
+								photodetector values</td>
+						</tr>
+						<tr>
+							<td>spo2_rdg</td>
+							<td>The current SPO2 value</td>
+						</tr>
+						<tr>
+							<td>prev_spo2</td>
+							<td>The previous SPO2 value, written to the screen if the new value is not valid</td>
+						</tr>
+						<tr>
+							<td>spo2_valid</td>
+							<td>Indicates if the current SPO2 value in spo2_rdg is a valid reading</td>
+						</tr>
+					</table>
 					<h4>Activity Tracking</h4>
 					<p>To detect a step using the angle rate sensor, we call a the 
 						update_step() function once per loop iteration to check the 
@@ -589,6 +709,20 @@
 						be reset if the select button is pressed when in that submenu. 
 						Otherwise, the step count since power-on will be stored 
 						indefinitely.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>step_count</td>
+							<td>The current number of recorded steps</td>
+						</tr>
+						<tr>
+							<td>prev_z</td>
+							<td>The last z-dimension reading from the angle rate sensor</td>
+						</tr>
+					</table>
 					<h4>Stopwatch</h4>
 					<p>The stopwatch code is similar to the real time code in that a 
 						series of conditionals are used to check if the seconds, minutes, 
@@ -604,11 +738,35 @@
 						the select button a third time will resume it. By pressing the 
 						cycle button to exit the stopwatch submenu, the stopwatch values 
 						will reset to 0.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>sw_en</td>
+							<td>1 if the stopwatch is currently running, 0 otherwise</td>
+						</tr>
+						<tr>
+							<td>sw_decisecs</td>
+							<td>The current number of deciseconds (100 milliseconds)</td>
+						</tr>
+						<tr>
+							<td>sw_<secs, mins, hours></td>
+							<td>The current seconds, minutes, or hours of the stopwatch</td>
+						</tr>
+						<tr>
+							<td>sw_last_update</td>
+							<td>The time uptime at which the last stopwatch time 
+								update occurred, used to check if the displayed string 
+								should be updated which happens every 100 milliseconds</td>
+						</tr>
+					</table>
 					<h4>Audio Recording</h4>
 					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image">
 					<style>
 					.scaled-image {
-							width: 50%;
+							width: 10%;
 							height: auto;
 					}
 					</style>
@@ -660,6 +818,36 @@
 						8 KHz. By setting the delay to this value, we ensure the playback 
 						of the audio sample matches the rate at which it was recorded, 
 						meaning it will sound correct.</p>
+					<table border="1">
+						<tr>
+							<th>Variable</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>audio_done_rec</td>
+							<td>1 if a record-playback sequence has been completed, 0 otherwise</td>
+						</tr>
+						<tr>
+							<td>audio_samp_idx_outer</td>
+							<td>Current index of the 8-entry subarray of the audio sample 
+								buffer, between 0 and 5000 inclusive</td>
+						</tr>
+						<tr>
+							<td>audio_samp_idx_inner</td>
+							<td>Current index within a given 8-entry subarray of the audio 
+								sample buffer, between 0 and 8 inclusive</td>
+						</tr>
+						<tr>
+							<td>dac_value</td>
+							<td>The 12-bit digital audio sample to send to the DAC, 
+								it has been downconverted from the original 16-bit sample</td>
+						</tr>
+						<tr>
+							<td>dac_msg</td>
+							<td>The dac_value combined with DAC_CFG_A which sets the 
+								appropriate DAC channel, gain, and other parameters</td>
+						</tr>
+					</table>
 					<h4>Info Scren</h4>
 					<p>A simple info screen is also available which displays the IP address, 
 						MAC address, and UDP port of the smartwatch given it is connected 
