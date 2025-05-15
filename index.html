@@ -15,8 +15,8 @@
 					margin: 0 auto;
 					padding: 20px;
 					background-color: #ffffff; /* White background for the content */
-					border-radius: 10px; /* Rounded corners */
-					box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+					border-radius: 20px; /* Rounded corners */
+					box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
         }
         section {
             margin-bottom: 20px;
@@ -439,6 +439,22 @@
 					screen so that it displays nothing. In this way, we get the same 
 					functionality as off-the-shelf smartwatches that turn off the screen 
 					when the user's wrist is down.</p>
+					<pre>
+						<code>
+						int check_screen() {
+							float x = get_x_rateDPS();
+							if (x > 2.0) return 1;
+							if (x < -2.0) return -1;
+							return 0; 
+						}
+
+						screen_rot = check_screen();
+						if (screen_rot == 1)  screen_status = 1;
+						if (screen_rot == -1) screen_status = 0;
+						if (screen_status) ... // do menu loop
+						else ... // display black screen
+						</code>
+					</pre>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -721,7 +737,7 @@
 						</tr>
 					</table>
 					<h4>Audio Recording</h4>
-					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-480">
+					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-240">
 					<p>Audio recording is accomplished using a serialized order of steps 
 						that first records the audio sample using the Pico PDM library 
 						adapted from hackster.io, storing each sample in a buffer, and then 
