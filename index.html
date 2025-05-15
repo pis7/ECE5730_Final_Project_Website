@@ -67,7 +67,7 @@
 					the intended direction the watch was to be worn on the wrist, 
 					specifically so that a typical right-handed person who would wear a 
 					watch on their left wrist would see the screen in the correct orientation 
-					(so that we would not have to do any 180 degree flips in software) and 
+					(so that we would not have to do any 180 degree flips in software) and the 
 					Pico W's antenna would face outward from their wrist to have the 
 					best signal integrity. After placing these largest components, we 
 					placed the other smaller components in the voids remaining on the 
@@ -75,7 +75,7 @@
 					were on opposite sides of the board so as to not cause feedback 
 					issues, although this did not end up being an issue as we 
 					eventually replaced our tiny speaker with a standard 3.5mm headphone 
-					jack since the speaker was not suitable to be driven without an 
+					jack as the speaker was not suitable to be driven without an 
 					on-board amplifier. As such, the microphone was placed at the top left 
 					and the speaker/DAC output at the top right. Next, we placed the 1.8V 
 					LDO and LiPo connector on the bottom left of the board, and the 6-pin 
@@ -110,11 +110,11 @@
 				</style>
         <h4>Pico W</h4>
 				<p>A Pico W was necessary for this build as we required WiFi for the 
-					network connection to obtain real time and incorporate texting 
+					network connection to obtain the real time and incorporate texting 
 					abilities. The nominal 3.2V to 4.2V LiPo voltage is received on 
 					the VSYS pin of the Pico which in turn generates a constant 3.3V 
 					to be used by peripheral devices. Three buttons were also attached 
-					to Pico: a reset button used for resetting the main loop as well as 
+					to the Pico: a reset button used for resetting the main loop as well as 
 					sending the Pico to bootsel mode on a double press, as well as a 
 					select and cycle button used for control of the user interface. 
 					Additionally, we use a simple voltage divider to divide down the 
@@ -126,7 +126,7 @@
 					1.8V supply voltage for the heart rate sensor. We chose the 
 					TLV76701DRVR from Texas Instruments since the output voltage 
 					can be easily adjusted using a resistive divider. When using 
-					LDO's it is important to ensure the output voltage is sufficiently 
+					LDO's, it is important to ensure the output voltage is sufficiently 
 					less than the input voltage, such that it satisfies the 
 					"dropout voltage," a parameter that defines the margin 
 					needed by the LDO to stabilize the output voltage generated 
@@ -165,7 +165,7 @@
 					during testing that the DAC expected a high-impedance load such as 
 					a dedicated audio amplifier IC which we did not include on our PCB. 
 					However, including this amplifier IC would have caused a noticeable 
-					increase in PCB size as we would not have had space to fit it. Thus, 
+					increase in PCB size as we would not have had space to fit it on our existing design. Thus, 
 					we swapped the speaker for a standard 3.5mm headphone jack so that 
 					we could plug our own audio output device into the smartwatch. We 
 					envision a compact solution such as wired Apple EarPods as being 
@@ -209,7 +209,7 @@
 					PCB to the heart rate daughter board.</p>
 				<h3>3D-Printed Case</h3>
 				<p>Given our size constraints for our custom PCB, we needed to design 
-					a 3D-printable case that would mount the PCB, the LiPo battery, the 
+					a 3D-printable case that would mount the PCB, the LiPo battery, and the 
 					heart rate daughter board together in one compact package while 
 					also allowing for cable management and holes for the nylon wrist 
 					straps. To do this, we utilized the four mounting holes of the 
@@ -363,7 +363,7 @@
 
     <section id="software-design">
         <h2>Software Design</h2>
-				<p>Our repository is located <a href="https://github.com/pis7/ECE5730_Smartwatch_SW">here.</a></p>
+				<p>Our repository is located <a href="https://github.com/pis7/ECE5730_Smartwatch_SW">here</a>.</p>
 				<h3>Directory Structure</h3>
 				<p>We structure our directory to have a main .c file for our primary 
 					software loop, with a corresponding .h and .c file for each peripheral 
@@ -384,7 +384,7 @@
 					initialize the GPIOs for the select and cycle buttons to be inputs 
 					with internal pull-downs enabled. We also initialize the ADC for 
 					the LiPo voltage reading, as well as call the initialization functions 
-					for the OLED screen from Amin Sahebi's SSH1106 library, the angle rate 
+					for the OLED screen, the angle rate 
 					sensor, the PDM microphone, and the heart rate sensor. Such initialization 
 					functions write configuration registers within each device to set it 
 					up to take the measurements we desire in our software. Next, we connect 
@@ -418,7 +418,7 @@
 					a button release. Such a mechanism prevents us from detecting multiple 
 					false button presses as the mechanical switch opens or closes. The 
 					cycle button's main function is to switch between apps in the main 
-					menu, as well as options within submenus when an app is selected. 
+					menu, as well as return to the main menu when in an app. 
 					The select button is used to select a specific app or perform a 
 					function within an app such as starting and stopping the stopwatch 
 					or resetting the step count. The debounce FSM's are checked once per 
@@ -434,7 +434,7 @@
 					</tr>
 					<tr>
 						<td>in_sub_menu</td>
-						<td>1 if the menu FSM is currently entered into a submenu of an app, 0 otherwise</td>
+						<td>1 if the menu FSM is currently entered into an app, 0 otherwise</td>
 					</tr>
 					<tr>
 						<td>sel_pressed</td>
@@ -501,7 +501,7 @@
 						by pulling the time via NTP upon a POR of the watch, and 
 						subsequently update the time based on the internal timer 
 						after this so as to not have to poll the network every second. 
-						We keep a variable, ntp_time_initialized which determines whether 
+						We keep a variable, ntp_time_initialized, which determines whether 
 						or not the time has been initialized from the network yet. If it 
 						has not, we call get_current_ntp_time() to obtain this time. If the 
 						time has already been initialized, we simply check if the previous 
@@ -515,11 +515,11 @@
 						the screen, alongside the date as pulled from NTP, the battery 
 						percentage as read from the ADC, as well as an icon indicating the 
 						connection status to the network. The battery percentage is 
-						calculated using a custom map_btt() function which takes in the 
+						calculated using a custom map_batt() function which takes in the 
 						minimum and maximum ADC values that correspond to the minimum and 
 						maximum battery voltages of 3.2V and 4.2V, respectively, divided 
 						in half as per the voltage divider on the PCB, as well as the minimum 
-						and maximum battery percentages which is, of course, 0 and 100%. A 
+						and maximum battery percentages which are, of course, 0% and 100%. A 
 						simple calculation using equivalent fractions is performed to convert 
 						the raw ADC value into a battery percentage.</p>
 					<table border="1">
@@ -558,8 +558,8 @@
 						case is handled by UDP communication. When our watch connects 
 						with the beacon and gathers an established IP address, we also 
 						initialize a port for UDP communication to send and receive messages. 
-						By using the “netcat” command, we can communicate with a hardware 
-						device's specific IP and port if connected to the same service. 
+						By using the “netcat” command on a computer, we can communicate with a hardware 
+						device's specific IP and port if connected to the same SSID. 
 						The watch has an IP address along with which it is constantly 
 						polling on port 1234 for UDP messages. On our computer, we can 
 						connect to the port and IP of the watch and send messages to it. 
@@ -567,7 +567,7 @@
 						the get_latest_udp_message() function. If the latest message is 
 						different from the previous message, then we iterate through 
 						each character and put a newline every 16 characters so that 
-						the message will break onto the next line on the screen.</p>
+						the message will break onto the next line of the screen.</p>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -597,8 +597,8 @@
 						the function has returned true, the difference in time from the 
 						last time a heartbeat was detected is taken and used to directly 
 						calculate the latest beats per minute (BPM). Since this value can 
-						fluctuate quite easily, the bpm values, when obtained, are stored 
-						in a ring buffer and averaged out to the final bpm value 
+						fluctuate quite easily, the BPM values, when obtained, are stored 
+						in a ring buffer and averaged out to the final BPM value 
 						displayed to the screen, hr_bpm_avg.</p>
 					<p>If the cycle button is pressed, the sensor toggles to SPO2 mode, 
 						where the percentage of oxygen in the blood is displayed. Since 
@@ -615,7 +615,7 @@
 						function first subtracts the DC mean from the signal formed by 
 						the values in each buffer, taking a moving average of the signal, 
 						and finding the two minimum values. The maximum between these two 
-						minimum values is then taken and then used to do a lookup in a 
+						minimum values is then taken and used to do a lookup in a 
 						table of precomputed percentages to output the current SPO2 
 						percentage to be displayed on the screen.</p>
 					<table border="1">
@@ -693,21 +693,20 @@
 						</tr>
 					</table>
 					<h4>Activity Tracking</h4>
-					<p>To detect a step using the angle rate sensor, we call a the 
+					<p>To detect a step using the angle rate sensor, we call the 
 						update_step() function once per loop iteration to check the 
 						current angular rate of change in the z-dimension, which is 
 						the dimension that has been experimentally determined to be 
 						in the direction of the swing of an arm during regular walking. 
-						Specifically, we check the current angular rate of change in the 
-						z-dimension, and check to see if its value is greater than 1.2g, 
+						Specifically, we check to see if this value is greater than 1.2g, 
 						an experimentally-determined threshold. If this condition is true 
 						and the previous measured value was less than 1.2g, then we 
 						increment a pointer to the step_count variable. In terms of 
 						bodily movements, this corresponds to when the hand is at the 
 						bottom position of the swing and is moving forward, which, with 
 						normal walking, occurs once per step. The current step count is 
-						displayed on the screen when that submenu is selected, and it can 
-						be reset if the select button is pressed when in that submenu. 
+						displayed on the screen when that app is selected, and it can 
+						be reset if the select button is pressed when in the app. 
 						Otherwise, the step count since power-on will be stored 
 						indefinitely.</p>
 					<table border="1">
@@ -732,12 +731,12 @@
 						to detect when an update should occur. However, the stopwatch 
 						increments in 100s of milliseconds as opposed to one second as 
 						with the real time. As such, we need an extra variable sw_decisecs 
-						to hold this value. Upon entering the stopwatch submenu, the 
+						to hold this value. Upon entering the stopwatch app, the 
 						stopwatch is not running. Only upon pressing the select button 
 						will it start to run. Pressing the select button again will stop 
 						the stopwatch and keep the time displayed on the screen. Pressing 
-						the select button a third time will resume it. By pressing the 
-						cycle button to exit the stopwatch submenu, the stopwatch values 
+						the select button another time will resume it. By pressing the 
+						cycle button to exit the stopwatch app, the stopwatch values 
 						will reset to 0.</p>
 					<table border="1">
 						<tr>
@@ -773,7 +772,7 @@
 					</style>
 					<p>Audio recording is accomplished using a serialized order of steps 
 						that first records the audio sample using the Pico PDM library 
-						adapter from hackster.io, storing each sample in a buffer, and then 
+						adapted from hackster.io, storing each sample in a buffer, and then 
 						playing back each sample in the buffer by sending the data to the 
 						DAC using appropriate timing between messages. This sequence of 
 						steps will only be executed if the audio_done_rec variable is false, 
@@ -808,17 +807,22 @@
 						pdm_microphone_start() function to enable the interrupt handler 
 						which fills the array. When the array is full, which is determined 
 						upon checking the current subarray index, the microphone is 
-						disabled using the pdm_microphone_stop() function to disable the 
+						stopped using the pdm_microphone_stop() function to disable the 
 						interrupt handler from updating the audio buffer. Finally, the 
 						audio samples can be written to the DAC by simply iterating through 
 						each entry of each subarray one at a time, downconverting the 
 						16-bit samples into 12-bit values suitable for our 12-bit DAC, 
 						and writing the value to the DAC over SPI. The amount of time to 
-						wait between sending each sample is determined by the DELAY 
+						wait between sending each sample is determined by the DAC_DELAY 
 						parameter, which is simply the inverse of the audio sample rate, 
 						8 KHz. By setting the delay to this value, we ensure the playback 
 						of the audio sample matches the rate at which it was recorded, 
-						meaning it will sound correct.</p>
+						meaning it will sound correct. This application was definitely the 
+					  hardest to write as we needed to get the timing correct to ensure
+					  the audio was played back correctly. We also encountered the additional
+					  problem of the WiFi connection interfering with the SPI transactions
+					  to the DAC as discussed in further detail in our Challenges 
+						section. </p>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -852,11 +856,11 @@
 					<h4>Info Scren</h4>
 					<p>A simple info screen is also available which displays the IP address, 
 						MAC address, and UDP port of the smartwatch given it is connected 
-						to the network. This screen is essential for configuring a laptop 
+						to the network. This screen is essential for configuring a computer 
 						to be able to send messages to the watch via our texting app.</p>
 					<h3>Custom Images</h3>
-					<p>Each submenu is represented by a small image when cycling 
-						through each app on the main menu. We generate this image 
+					<p>Each app is represented by a small image when cycling 
+						through the main menu. We generate this image 
 						using our image_convert.py program that takes in a png image 
 						as input, resizes it to a specified number of pixels in the x- and 
 						y-directions, and extracts the pixels that are not empty by checking 
@@ -886,13 +890,13 @@
 					not very accurate, and further research on online forums revealed 
 					its purpose was primarily to account for sensor drift, thus the 
 					relative differences in values read from it were intended by the 
-					manufacturer to be used.</p>
+					manufacturer to be used, not the raw values.</p>
 				<p>Another issue we had was related to interference between the WiFi 
 					and SPI modules on the board. We found that using the texting feature 
 					and then switching to the audio recording was causing the loop to 
 					freeze on playback of the audio. Upon debugging, we found that the 
 					spi_write16_blocking() function would work properly for a few transactions, 
-					but freeze up about 100 transactions in. By disabling different 
+					but freeze up about 100 transactions in. By temporarily disabling different 
 					peripherals, we identified the issue as being related to the WiFi 
 					infrastructure. To fix this, we put all WiFi-related functionality 
 					on core 0, and moved all other operations to core 1. By doing this, 
