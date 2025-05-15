@@ -35,11 +35,6 @@
 					width: 240px;
 					height: auto;
 				}
-				pre, code {
-					text-align: left; /* Ensures text aligns left */
-					display: block; /* Keeps block formatting */
-					margin-left: 0; /* Removes extra left margin */
-				}
 				figcaption {
 					text-align: center;
 					font-style: italic;
@@ -463,22 +458,20 @@
 					screen so that it displays nothing. In this way, we get the same 
 					functionality as off-the-shelf smartwatches that turn off the screen 
 					when the user's wrist is down.</p>
-					<pre>
-						<code>
-						int check_screen() {
-							float x = get_x_rateDPS();
-							if (x > 2.0) return 1;
-							if (x < -2.0) return -1;
-							return 0; 
-						}
+					<code>
+					int check_screen() {
+						float x = get_x_rateDPS();
+						if (x > 2.0) return 1;
+						if (x < -2.0) return -1;
+						return 0; 
+					}
 
-						screen_rot = check_screen();
-						if (screen_rot == 1)  screen_status = 1;
-						if (screen_rot == -1) screen_status = 0;
-						if (screen_status) ... // do menu loop
-						else ... // display black screen
-						</code>
-					</pre>
+					screen_rot = check_screen();
+					if (screen_rot == 1)  screen_status = 1;
+					if (screen_rot == -1) screen_status = 0;
+					if (screen_status) ... // do menu loop
+					else ... // display black screen
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -520,50 +513,48 @@
 						and maximum battery percentages which are, of course, 0% and 100%. A 
 						simple calculation using equivalent fractions is performed to convert 
 						the raw ADC value into a battery percentage.</p>
-					<pre>
-						<code>
-						// We have NTP time and this is the first initialization 
-						if (!ntp_time_initd && ntp_time_ready) {
-							datetime_t now;
-							get_current_ntp_time(&now);
-							rt_hours = now.hour;
-							rt_mins = now.min;
-							rt_secs = now.sec;
-							rt_month = now.month;
-							day = now.day;
-							prev_rt_secs = rt_secs;
-							ntp_time_initd = true;
-							rt_last_update = get_absolute_time();
+					<code>
+					// We have NTP time and this is the first initialization 
+					if (!ntp_time_initd && ntp_time_ready) {
+						datetime_t now;
+						get_current_ntp_time(&now);
+						rt_hours = now.hour;
+						rt_mins = now.min;
+						rt_secs = now.sec;
+						rt_month = now.month;
+						day = now.day;
+						prev_rt_secs = rt_secs;
+						ntp_time_initd = true;
+						rt_last_update = get_absolute_time();
 
-						// We have NTP time and we have already initialized
-						} else if (ntp_time_initd) {
-							if (absolute_time_diff_us(rt_last_update, get_absolute_time()) >= 1000000) {
-								sprintf(prev_rt_time_str, "%s", rt_time_str);
-								rt_last_update = get_absolute_time();
-								rt_secs++;
-								if (rt_secs > 59) {
-									rt_secs = 0;
-									rt_mins++;
-								}
-								if (rt_mins > 59) {
-									rt_mins = 0;
-									rt_hours++;
-								}
-								if (rt_hours > 24){
-									rt_hours = 0;
-								}
-							}
-
-						// NTP time has not been acquired - default to uptime
-						} else {
+					// We have NTP time and we have already initialized
+					} else if (ntp_time_initd) {
+						if (absolute_time_diff_us(rt_last_update, get_absolute_time()) >= 1000000) {
 							sprintf(prev_rt_time_str, "%s", rt_time_str);
-							rt_uptime_ms = time_us_64() / 1000;
-							rt_hours = (rt_uptime_ms / (1000 * 60 * 60)) % 24;
-							rt_mins = (rt_uptime_ms / (1000 * 60)) % 60;
-							rt_secs = (rt_uptime_ms / 1000) % 60;
+							rt_last_update = get_absolute_time();
+							rt_secs++;
+							if (rt_secs > 59) {
+								rt_secs = 0;
+								rt_mins++;
+							}
+							if (rt_mins > 59) {
+								rt_mins = 0;
+								rt_hours++;
+							}
+							if (rt_hours > 24){
+								rt_hours = 0;
+							}
 						}
-						</code>
-					</pre>
+
+					// NTP time has not been acquired - default to uptime
+					} else {
+						sprintf(prev_rt_time_str, "%s", rt_time_str);
+						rt_uptime_ms = time_us_64() / 1000;
+						rt_hours = (rt_uptime_ms / (1000 * 60 * 60)) % 24;
+						rt_mins = (rt_uptime_ms / (1000 * 60)) % 60;
+						rt_secs = (rt_uptime_ms / 1000) % 60;
+					}
+					</code>
 					<table border
 					<table border="1">
 						<tr>
@@ -611,28 +602,26 @@
 						different from the previous message, then we iterate through 
 						each character and put a newline every 16 characters so that 
 						the message will break onto the next line of the screen.</p>
-					<pre>
-						<code>
-							// Core 0 - handle texting and WiFi interface
-							while(1) {
-								const char *msg = get_latest_udp_message();
-								if (strcmp(msg, last_message) != 0) {
-									int j = 0;
-									int ypos = 10;
-									for (int i = 0; i < BEACON_MSG_LEN_MAX && msg[i] != '\0' && 
-											msg[i] != '\r' && msg[i] != '\n'; i++) {
-										if (msg[i] >= 32 && msg[i] <= 126) {
-											filtered_message[j++] = msg[i];
-											if (j % 16 == 0)
-												filtered_message[j++] = '\n';
-										}
+					<code>
+						// Core 0 - handle texting and WiFi interface
+						while(1) {
+							const char *msg = get_latest_udp_message();
+							if (strcmp(msg, last_message) != 0) {
+								int j = 0;
+								int ypos = 10;
+								for (int i = 0; i < BEACON_MSG_LEN_MAX && msg[i] != '\0' && 
+										msg[i] != '\r' && msg[i] != '\n'; i++) {
+									if (msg[i] >= 32 && msg[i] <= 126) {
+										filtered_message[j++] = msg[i];
+										if (j % 16 == 0)
+											filtered_message[j++] = '\n';
 									}
-									filtered_message[j] = '\0';
-									strncpy(last_message, filtered_message, BEACON_MSG_LEN_MAX);
 								}
+								filtered_message[j] = '\0';
+								strncpy(last_message, filtered_message, BEACON_MSG_LEN_MAX);
 							}
-						</code>
-					</pre>
+						}
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -683,73 +672,71 @@
 						minimum values is then taken and used to do a lookup in a 
 						table of precomputed percentages to output the current SPO2 
 						percentage to be displayed on the screen.</p>
-					<pre>
-						<code>
-							 // Currently displaying heart rate
-							if (hr_screen) {
+					<code>
+							// Currently displaying heart rate
+						if (hr_screen) {
 
-								// If there is a new heart beat
-								if (max30102_hr_check_for_beat(max30102_get_ir(&hr_sense), &hr_signal, fir_coeffs)) {
-									long hr_bpm_delta = to_ms_since_boot(get_absolute_time()) - hr_last_beat;
-									hr_last_beat = to_ms_since_boot(get_absolute_time());            
-									hr_bpm = 60 / (hr_bpm_delta / 1000.0);
-									if (hr_bpm < 255 && hr_bpm > 20) {
+							// If there is a new heart beat
+							if (max30102_hr_check_for_beat(max30102_get_ir(&hr_sense), &hr_signal, fir_coeffs)) {
+								long hr_bpm_delta = to_ms_since_boot(get_absolute_time()) - hr_last_beat;
+								hr_last_beat = to_ms_since_boot(get_absolute_time());            
+								hr_bpm = 60 / (hr_bpm_delta / 1000.0);
+								if (hr_bpm < 255 && hr_bpm > 20) {
 
-										// Store this reading in the array
-										hr_rates[hr_rate_spot++] = (uint8_t)hr_bpm;
+									// Store this reading in the array
+									hr_rates[hr_rate_spot++] = (uint8_t)hr_bpm;
 
-										// Wrap variable
-										hr_rate_spot %= HR_RATE_SZ;
-							
-										// Take average of readings
-										hr_bpm_avg = 0;
-										for (uint8_t x = 0 ; x < HR_RATE_SZ ; x++)
-											hr_bpm_avg += hr_rates[x];
-										hr_bpm_avg /= HR_RATE_SZ;
-									}
+									// Wrap variable
+									hr_rate_spot %= HR_RATE_SZ;
+						
+									// Take average of readings
+									hr_bpm_avg = 0;
+									for (uint8_t x = 0 ; x < HR_RATE_SZ ; x++)
+										hr_bpm_avg += hr_rates[x];
+									hr_bpm_avg /= HR_RATE_SZ;
 								}
-								sprintf(screen_str, "BPM: %d", hr_bpm_avg);
-								SSH1106_GotoXY(15, 25);
-								SSH1106_Puts(screen_str, &Font_11x18, 1);
-							} else {
-
-								// Shift SPO2 buffer
-								for (int i = SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
-									spo2_ir_buff[i - SPO2_BUFF_LEN/4] = spo2_ir_buff[i];
-									spo2_red_buff[i - SPO2_BUFF_LEN/4] = spo2_red_buff[i];
-								}
-
-								// Fill in new values to SPO2 buffers
-								for (int i = 3*SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
-
-									// Wait until new sample is available
-									while (!max30102_avail(&hr_sense)) max30102_hr_check(&hr_sense);
-									spo2_red_buff[i] = max30102_get_red(&hr_sense);
-									spo2_ir_buff[i] = max30102_get_ir(&hr_sense);
-									max30102_next_sample(&hr_sense);
-
-									// Perform SPO2 calculation
-									max30102_read_spo2(
-										spo2_ir_buff, 
-										SPO2_BUFF_LEN, 
-										spo2_red_buff, 
-										&spo2_rdg, 
-										&spo2_valid
-									);
-								}
-
-								// Only display valid SPO2 value
-								if (!spo2_valid) {
-									sprintf(screen_str, "SPO2: %d", prev_spo2_rdg);
-								} else {
-									sprintf(screen_str, "SPO2: %d", spo2_rdg);
-									prev_spo2_rdg = spo2_rdg;
-								}
-								SSH1106_GotoXY(15, 25);
-								SSH1106_Puts(screen_str, &Font_11x18, 1);
 							}
-						</code>
-					</pre>
+							sprintf(screen_str, "BPM: %d", hr_bpm_avg);
+							SSH1106_GotoXY(15, 25);
+							SSH1106_Puts(screen_str, &Font_11x18, 1);
+						} else {
+
+							// Shift SPO2 buffer
+							for (int i = SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
+								spo2_ir_buff[i - SPO2_BUFF_LEN/4] = spo2_ir_buff[i];
+								spo2_red_buff[i - SPO2_BUFF_LEN/4] = spo2_red_buff[i];
+							}
+
+							// Fill in new values to SPO2 buffers
+							for (int i = 3*SPO2_BUFF_LEN/4; i < SPO2_BUFF_LEN; i++) {
+
+								// Wait until new sample is available
+								while (!max30102_avail(&hr_sense)) max30102_hr_check(&hr_sense);
+								spo2_red_buff[i] = max30102_get_red(&hr_sense);
+								spo2_ir_buff[i] = max30102_get_ir(&hr_sense);
+								max30102_next_sample(&hr_sense);
+
+								// Perform SPO2 calculation
+								max30102_read_spo2(
+									spo2_ir_buff, 
+									SPO2_BUFF_LEN, 
+									spo2_red_buff, 
+									&spo2_rdg, 
+									&spo2_valid
+								);
+							}
+
+							// Only display valid SPO2 value
+							if (!spo2_valid) {
+								sprintf(screen_str, "SPO2: %d", prev_spo2_rdg);
+							} else {
+								sprintf(screen_str, "SPO2: %d", spo2_rdg);
+								prev_spo2_rdg = spo2_rdg;
+							}
+							SSH1106_GotoXY(15, 25);
+							SSH1106_Puts(screen_str, &Font_11x18, 1);
+						}
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -841,16 +828,14 @@
 						be reset if the select button is pressed when in the app. 
 						Otherwise, the step count since power-on will be stored 
 						indefinitely.</p>
-					<pre>
-						<code>
-							void update_step(float* prev_z, int* step_count) {
-								float z = get_z_rateDPS();
-								if (z > 1.2 && *prev_z <= 1.2)
-									(*step_count)++;  
-								*prev_z = z;
-							}
-						</code>
-					</pre>
+					<code>
+						void update_step(float* prev_z, int* step_count) {
+							float z = get_z_rateDPS();
+							if (z > 1.2 && *prev_z <= 1.2)
+								(*step_count)++;  
+							*prev_z = z;
+						}
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -880,38 +865,36 @@
 						the select button another time will resume it. By pressing the 
 						cycle button to exit the stopwatch app, the stopwatch values 
 						will reset to 0.</p>
-					<pre>
-						<code>
-							// Update stopwatch values only if enabled
-							if (sw_en) {
-								if (sw_decisecs > 9) {
-									sw_decisecs = 0;
-									sw_secs++;
-								}
-								if (sw_secs > 59) {
-									sw_secs = 0;
-									sw_mins++;
-								}
-								if (sw_mins > 59) {
-									sw_mins = 0;
-									sw_hours++;
-								}
-								if (sw_hours > 9) {
-									sw_hours = 0;
-								}
-
-								// Only update screen every 100ms
-								if (absolute_time_diff_us(sw_last_update, get_absolute_time()) >= 100000) {
-									sw_last_update = get_absolute_time();
-									sprintf(screen_str, "%01u:%02u:%02u.%d", sw_hours, sw_mins, sw_secs, sw_decisecs);
-									SSH1106_GotoXY(20, 25);
-									SSH1106_Puts(screen_str, &Font_11x18, 1);
-									SSH1106_UpdateScreen();
-									sw_decisecs++;
-								}
+					<code>
+						// Update stopwatch values only if enabled
+						if (sw_en) {
+							if (sw_decisecs > 9) {
+								sw_decisecs = 0;
+								sw_secs++;
 							}
-						</code>
-					</pre>
+							if (sw_secs > 59) {
+								sw_secs = 0;
+								sw_mins++;
+							}
+							if (sw_mins > 59) {
+								sw_mins = 0;
+								sw_hours++;
+							}
+							if (sw_hours > 9) {
+								sw_hours = 0;
+							}
+
+							// Only update screen every 100ms
+							if (absolute_time_diff_us(sw_last_update, get_absolute_time()) >= 100000) {
+								sw_last_update = get_absolute_time();
+								sprintf(screen_str, "%01u:%02u:%02u.%d", sw_hours, sw_mins, sw_secs, sw_decisecs);
+								SSH1106_GotoXY(20, 25);
+								SSH1106_Puts(screen_str, &Font_11x18, 1);
+								SSH1106_UpdateScreen();
+								sw_decisecs++;
+							}
+						}
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
@@ -991,46 +974,44 @@
 					  problem of the WiFi connection interfering with the SPI transactions
 					  to the DAC as discussed in further detail in our Challenges 
 						section. </p>
-					<pre>
-						<code>
-							// If we are not done recording, start recording
-							if (!audio_done_rec) {
-								SSH1106_Clear();
-								sprintf(screen_str, "Recording");
-								SSH1106_GotoXY(20, 25);
-								SSH1106_Puts(screen_str, &Font_11x18, 1);
-								SSH1106_UpdateScreen();
-								audio_samp_idx_outer = 0;
+					<code>
+						// If we are not done recording, start recording
+						if (!audio_done_rec) {
+							SSH1106_Clear();
+							sprintf(screen_str, "Recording");
+							SSH1106_GotoXY(20, 25);
+							SSH1106_Puts(screen_str, &Font_11x18, 1);
+							SSH1106_UpdateScreen();
+							audio_samp_idx_outer = 0;
 
-								// Start recording from PDM microphone
-								pdm_microphone_start();
-								while (audio_samp_idx_outer < MIC_NUM_BURSTS) tight_loop_contents();
-								pdm_microphone_stop();
-								SSH1106_Clear();
-								sprintf(screen_str, "Playback");
-								SSH1106_GotoXY(20, 25);
-								SSH1106_Puts(screen_str, &Font_11x18, 1);
-								SSH1106_UpdateScreen();
-								audio_samp_idx_outer = 0;
-								audio_samp_idx_inner = 0;
+							// Start recording from PDM microphone
+							pdm_microphone_start();
+							while (audio_samp_idx_outer < MIC_NUM_BURSTS) tight_loop_contents();
+							pdm_microphone_stop();
+							SSH1106_Clear();
+							sprintf(screen_str, "Playback");
+							SSH1106_GotoXY(20, 25);
+							SSH1106_Puts(screen_str, &Font_11x18, 1);
+							SSH1106_UpdateScreen();
+							audio_samp_idx_outer = 0;
+							audio_samp_idx_inner = 0;
 
-								// Start playback from stored samples to DAC
-								while (audio_samp_idx_outer < MIC_NUM_BURSTS) {
-									dac_value = (audio_samp_buff[audio_samp_idx_outer][audio_samp_idx_inner++] + 32768) >> 4;
-									dac_msg = (DAC_CFG_A | (dac_value & 0x0FFF));
-									spi_write16_blocking(SPI_PORT, &dac_msg, 1);
-									if (audio_samp_idx_inner == MIC_SAMP_BUFF_SZ) {
-										audio_samp_idx_inner = 0;
-										audio_samp_idx_outer++;
-									}
-									busy_wait_us(DAC_DELAY);
+							// Start playback from stored samples to DAC
+							while (audio_samp_idx_outer < MIC_NUM_BURSTS) {
+								dac_value = (audio_samp_buff[audio_samp_idx_outer][audio_samp_idx_inner++] + 32768) >> 4;
+								dac_msg = (DAC_CFG_A | (dac_value & 0x0FFF));
+								spi_write16_blocking(SPI_PORT, &dac_msg, 1);
+								if (audio_samp_idx_inner == MIC_SAMP_BUFF_SZ) {
+									audio_samp_idx_inner = 0;
+									audio_samp_idx_outer++;
 								}
-								audio_samp_idx_outer = 0;
-								audio_samp_idx_inner = 0;
-								audio_done_rec = 1;
+								busy_wait_us(DAC_DELAY);
 							}
-						</code>
-					</pre>
+							audio_samp_idx_outer = 0;
+							audio_samp_idx_inner = 0;
+							audio_done_rec = 1;
+						}
+					</code>
 					<table border="1">
 						<tr>
 							<th>Variable</th>
