@@ -23,7 +23,7 @@
 </head>
 <body>
     <header>
-        <h1>Project Report</h1>
+        <h1>ECE 5730 Spring 2025 Final Project: Smartwatch</h1>
     </header>
 
     <section id="introduction">
@@ -229,21 +229,21 @@
 					were mounted so that the watch could be worn on the wrist. A simple 
 					nylon clip design was also made to secure the strap in place when 
 					worn.</p>
-				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1">
+				<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
 						height: auto;
 				}
 				</style>
-				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2">
+				<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
 						height: auto;
 				}
 				</style>
-				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3">
+				<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
@@ -422,38 +422,38 @@
 					function within an app such as starting and stopping the stopwatch 
 					or resetting the step count. The debounce FSM's are checked once per 
 					loop iteration by calling the update_menu() function.</p>
-				<table>
+				<table border="1">
 					<tr>
 						<th>Variable</th>
 						<th>Description</th>
 					</tr>
 					<tr>
-						<td>Main_menu_state</td>
+						<td>main_menu_state</td>
 						<td>Enumerated type representing the current app selected</td>
 					</tr>
 					<tr>
-						<td>In_sub_menu</td>
+						<td>in_sub_menu</td>
 						<td>1 if the menu FSM is currently entered into a submenu of an app, 0 otherwise</td>
 					</tr>
 					<tr>
-						<td>Sel_pressed</td>
+						<td>sel_pressed</td>
 						<td>Current GPIO state of the SEL button</td>
 					</tr>
 					<tr>
-						<td>Sel_button_state</td>
+						<td>sel_button_state</td>
 						<td>Debounce FSM state for the SEL button</td>
 					</tr>
 					<tr>
-						<td>Cyc_pressed</td>
+						<td>cyc_pressed</td>
 						<td>Current GPIO state of the CYC button</td>
 					</tr>
 					<tr>
-						<td>Cyc_button_state</td>
+						<td>cyc_button_state</td>
 						<td>Debounce FSM state for the CYC button</td>
 					</tr>
 				</table>
 				<h3>Menu Checking Loop</h3>
-				<img src="images/smartwatch_meu.png" alt="Smartwatch Menu">
+				<img src="images/smartwatch_meu.png" alt="Smartwatch Menu" class="scaled-image">
 				<style>
 				.scaled-image {
 						width: 50%;
@@ -480,17 +480,17 @@
 					screen so that it displays nothing. In this way, we get the same 
 					functionality as off-the-shelf smartwatches that turn off the screen 
 					when the user's wrist is down.</p>
-					<table>
+					<table border="1">
 						<tr>
 							<th>Variable</th>
 							<th>Description</th>
 						</tr>
 						<tr>
-							<td>Screen_rot</td>
+							<td>screen_rot</td>
 							<td>Return variable from check_screen(), 1 = turn screen on, -1 = turn screen off, 0 = no action</td>
 						</tr>
 						<tr>
-							<td>Screen_status</td>
+							<td>screen_status</td>
 							<td>Current power status of the screen, 1 = screen is on, 0 = screen is off</td>
 						</tr>
 					</table>
@@ -605,7 +605,7 @@
 						cycle button to exit the stopwatch submenu, the stopwatch values 
 						will reset to 0.</p>
 					<h4>Audio Recording</h4>
-					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram">
+					<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image">
 					<style>
 					.scaled-image {
 							width: 50%;
@@ -721,13 +721,11 @@
     <section id="results">
         <h2>Results of Design</h2>
         <p>Summarize the findings and outcome of your project.</p>
-        <img src="images/results.jpg" alt="Results of Design">
     </section>
 
     <section id="conclusions">
         <h2>Conclusions</h2>
         <p>Provide key takeaways and future improvements.</p>
-        <img src="images/conclusions.jpg" alt="Conclusions">
     </section>
 
     <footer>
