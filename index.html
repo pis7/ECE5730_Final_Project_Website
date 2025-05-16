@@ -56,7 +56,27 @@
 
     <section id="introduction">
         <h2>Project Introduction</h2>
-				<p>Intro here</p>
+				<p><i>The aim of this project was to create a custom smartwatch using
+					a Raspberry Pi Pico W because of its great functionalities, while 
+					maintaining a simple and compact design embodying industry standard 
+					smartwatches and their common features.</i></p>
+				<figure>
+        	<img src="images/smartwatch_irl.png" alt="Smartwatch Picture" class="scaled-image-960">
+					<figcaption>An in-real-life working version of our smartwatch design</figcaption>
+				</figure>
+				<p>The main motivation behind this project was combining and making the 
+					most out of all of the team members' individual strengths into 
+					an interesting and multifaceted project we would be proud of. 
+					By tackling this large and comprehensive project, we hoped to 
+					gain a deeper appreciation for devices we may take for granted, 
+					as well as create a project that is able to fuel our passions for 
+					health and well-being. We created a wearable, interactive device 
+					of similar dimensions to industry standard smartwatch 
+					devices which has many capabilities such as real-time NTP 
+					time updating, texting, heart rate and SPO2 monitoring, activity 
+					step tracking, screen orientation checking, audio recording and 
+					playing, and a stopwatch integrated. Specifically, we utilize the WiFi
+					features of the Pico W for real time updating and texting.</p>
 				<figure>
         	<img src="images/group.jpg" alt="Project Introduction" class="scaled-image-960">
 					<figcaption>Our group - Parker Schless (left), Katarina Duric (middle), George Maidhof (right)</figcaption>
@@ -203,7 +223,10 @@
 					However, including this amplifier IC would have caused a noticeable 
 					increase in PCB size as we would not have had space to fit it on our existing design. Thus, 
 					we swapped the speaker for a standard 3.5mm headphone jack so that 
-					we could plug our own audio output device into the smartwatch. We 
+					we could plug our own audio output device into the smartwatch. While we
+					obviously did not have the correct footprint for this jack on the board,
+					we soldered short wires directly onto the jack's leads and into the 
+					througholes for the speaker wires. We then hot-glued the jack in place. We 
 					envision a compact solution such as wired Apple EarPods as being 
 					plugged into the device which have their own audio amplifier and 
 					volume controller on-board. This also contributes to the discrete 
@@ -267,15 +290,15 @@
 					worn.</p>
 				<figure>
 					<img src="images/smartwatch_cad_1.png" alt="3D-Printed Case CAD 1" class="scaled-image-960">
-					<figcaption>3D-Printed case CAD angle 1</figcaption>
+					<figcaption>3D-printed case CAD angle 1</figcaption>
 				</figure>
 				<figure>
 					<img src="images/smartwatch_cad_2.png" alt="3D-Printed Case CAD 2" class="scaled-image-960">
-					<figcaption>3D-Printed case CAD angle 2</figcaption>
+					<figcaption>3D-printed case CAD angle 2</figcaption>
 				</figure>
 				<figure>
 					<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image-960">
-					<figcaption>3D-Printed case CAD angle 3</figcaption>
+					<figcaption>3D-printed case CAD angle 3</figcaption>
 				</figure>
 				<h3>Total Cost</h3>
 				<p>Project specifications required our total unit cost to be under 
@@ -434,7 +457,10 @@
 				<h3>Button Debouncing</h3>
 				<figure>
 					<img src="images/debounce_fsm.png" alt="Button Debounce FSM Diagram" class="scaled-image-960">
-					<figcaption>Button debounce FSM diagram</figcaption>
+					<figcaption>Button debounce FSM diagram. Actions that cause a transition to occur
+						are seen on the transition arrows' edges. Actions that are taken as a result of a
+						transition are seen after the backslash on the transition arrows. BUTTON refers
+					  to either the CYC or SEL button as both buttons have a similar debounce FSM.</figcaption>
 				</figure>
 				<p>For both the cycle and select buttons, we use an identical FSM as 
 					in our previous labs, where we only detect a true button press upon 
@@ -480,7 +506,10 @@
 				<h3>Menu Checking Loop</h3>
 				<figure>
 					<img src="images/smartwatch_menu.png" alt="Smartwatch Menu" class="scaled-image-960">
-					<figcaption>Smartwatch menu flow diagram</figcaption>
+					<figcaption>Smartwatch menu flow diagram. Actions that cause a transition to occur
+						are seen on the transition arrows' edges, where CYC corresponds to the press
+					  of the CYC button, and SEL corresponds to a press of the SEL button. Example
+					  content that is displayed on the OLED screen is seen in the rectangles.</figcaption>
 				</figure>
 				<h4>Screen Orientation Check</h4>
 				<p>Upon each loop iteration, we check the current status of the angle 
@@ -978,7 +1007,8 @@ if (sw_en) {
 					<h4>Audio Recording</h4>
 					<figure style="display: flex; flex-direction: column; align-items: center;">
 						<img src="images/PDM_mic.png" alt="PDM Microphone Processing Block Diagram" class="scaled-image-240">
-						<figcaption>PDM microphone processing block diagram</figcaption>
+						<figcaption>PDM microphone processing block diagram. Arrows correspond
+							to the flow of data.</figcaption>
 					</figure>
 					<p>Audio recording is accomplished using a serialized order of steps 
 						that first records the audio sample using the Pico PDM library 
@@ -1212,7 +1242,7 @@ if (!audio_done_rec) {
 					achieved. When pitching our smartwatch, our group aimed to create a 
 					custom PCB that would incorporate the Pico W, an OLED screen display, 
 					an angular rate sensor, mic and speaker, heart rate sensing, and a 3D 
-					printed case to hold all the components. </p>
+					printed case to hold all the components.</p>
 				<p>We decided to measure the success of our project in three parts. 
 					These aspects would take into account the effectiveness of the watch 
 					in reference to our original goal of “health tracking,” if we were 
@@ -1221,7 +1251,7 @@ if (!audio_done_rec) {
 					collect from the sensors. Another skill that we took away from this 
 					project was the ability to distribute work among all three members 
 					to create a cohesive project utilizing each other's strengths while 
-					also learning new skills in the process. </p>
+					also learning new skills in the process.</p>
 				<p>The original motive of this project was to take inspiration from 
 					each of our passions for health and to partner it with the field of 
 					electronics, hence how we came to the idea of making a smartwatch. 
@@ -1229,7 +1259,7 @@ if (!audio_done_rec) {
 					sure we could measure someone's everyday health with sensors along 
 					with using WiFi to enhance the features included. With that being 
 					said, we did have some important lessons learned during this project 
-					that contributed to some changes in our original design. </p>
+					that contributed to some changes in our original design.</p>
 				<p>During the first prototype of our PCB and soldering our components, 
 					we found some of the components' packages to be quite challenging 
 					to mount such as the IMU. Luckily, we had access to a hot plate 
@@ -1252,7 +1282,21 @@ if (!audio_done_rec) {
 					feature and the ability to record and playback audio samples up 
 					to 5 seconds. While these objectives were not originally planned, 
 					our incorporation of these shows our adaptability to solving 
-					problems within the scope of our 5 week project window. </p>
+					problems within the scope of our 5 week project window.</p>
+				<p>In future versions of our project, we would like to include walkie-talkie 
+					functionality such that two smartwatches can talk to each other
+					directly over WiFi, which would be accomplished by converting audio samples
+					into UDP packets and sending them over the network. Additionally, we 
+					would add the ability for the watch to poll local weather data beased on 
+					the assigned IP address such as temperature, cloud cover, and humidity.
+					We did not include this in our project since it requires TCP, which
+					requires significantly more time, effort, and system resources to
+					implement compared to UDP. Along with this, obtaining an approximate 
+					geolocation based on IP would also be a welcome addition. Finally,
+				  we would also like to include external flash memory on the next version
+				  of our smartwatch so that we can store longer audio samples and possibly
+				  even entire MP3 files. This way, we could store songs and play them back
+				  through the connected audio device, similar to an iPod.</p>
 				<p>With the conclusion of our prototype of a smart watch, 
 					we are proud to see the work we have put in come to 
 					fruition under both tight time as well as budget constraints. 
@@ -1266,7 +1310,7 @@ if (!audio_done_rec) {
 					of how sensors can monitor and interact with metrics related to our 
 					human health. Our team has met the goals we aimed to achieve coming 
 					into this project and produced a completely functional product within 
-					just a 5 week period. </p>
+					just a 5 week period.</p>
     </section>
 
 		<section id="appendix">
@@ -1290,7 +1334,7 @@ if (!audio_done_rec) {
 				<p><a href="https://www.st.com/content/ccc/resource/technical/document/datasheet/e4/b1/d1/62/1a/e6/44/2f/DM00168691.pdf/files/DM00168691.pdf/jcr:content/translations/en.DM00168691.pdf">I3G4250D Datasheet</a></p>
 				<h3>Tasks for Each Team Member</h3>
 				<p>Parker was responsible for the high-level design of the PCB as well as the CAD for the case. He was also responsible for the overall software infrastructure including the menu system and basic sensor integration.</p>
-				<p>Katarina was responsible for...</p>
+				<p>Katarina was responsible for PCB layout, integration of the heart rate sensor and angle rate sensor, and website design.</p>
 				<p>George was responsible for the integration of the Pico W libraries to make use of UDP and NTP for the real-time clock and communication between devices.</p>
 		</section>
 
