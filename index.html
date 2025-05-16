@@ -47,6 +47,9 @@
 					margin-top: 5px;
 				}
     </style>
+		<script id="MathJax-script" async
+		src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
 </head>
 <body>
 	<div class="container">
@@ -55,46 +58,233 @@
     </header>
 
     <section id="introduction">
-        <h2>Project Introduction</h2>
-				<p><i>The aim of this project was to create a custom smartwatch using
-					a Raspberry Pi Pico W because of its great functionalities, while 
-					maintaining a simple and compact design embodying industry standard 
-					smartwatches and their common features.</i></p>
-				<figure>
-        	<img src="images/smartwatch_irl.png" alt="Smartwatch Picture" class="scaled-image-960">
-					<figcaption>An in-real-life working version of our smartwatch design</figcaption>
-				</figure>
-				<p>The main motivation behind this project was combining and making the 
-					most out of all of the team members' individual strengths into 
-					an interesting and multifaceted project we would be proud of. 
-					By tackling this large and comprehensive project, we hoped to 
-					gain a deeper appreciation for devices we may take for granted, 
-					as well as create a project that is able to fuel our passions for 
-					health and well-being. We created a wearable, interactive device 
-					of similar dimensions to industry standard smartwatch 
-					devices which has many capabilities such as real-time NTP 
-					time updating, texting, heart rate and SPO2 monitoring, activity 
-					step tracking, screen orientation checking, audio recording and 
-					playing, and a stopwatch integrated. Specifically, we utilize the WiFi
-					features of the Pico W for real time updating and texting.</p>
-				<figure>
-        	<img src="images/group.jpg" alt="Project Introduction" class="scaled-image-960">
-					<figcaption>Our group - Parker Schless (left), Katarina Duric (middle), George Maidhof (right)</figcaption>
-				</figure>
-				<iframe 
-					width="960" 
-					height="540" 
-					src="https://www.youtube.com/embed/u0ErQuF8XQI" 
-					frameborder="0" 
-					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-					allowfullscreen>
-				</iframe>
-
+			<h2>Project Introduction</h2>
+			<p><i>The aim of this project was to create a custom smartwatch using
+				a Raspberry Pi Pico W because of its great functionalities, while 
+				maintaining a simple and compact design embodying industry standard 
+				smartwatches and their common features.</i></p>
+			<figure>
+				<img src="images/smartwatch_irl.JPG" alt="Smartwatch Picture" class="scaled-image-960">
+				<figcaption>An in-real-life working version of our smartwatch design</figcaption>
+			</figure>
+			<p>The main motivation behind this project was combining and making the 
+				most out of all of the team members' individual strengths into 
+				an interesting and multifaceted project we would be proud of. 
+				By tackling this large and comprehensive project, we hoped to 
+				gain a deeper appreciation for devices we may take for granted, 
+				as well as create a project that is able to fuel our passions for 
+				health and well-being. We created a wearable, interactive device 
+				of similar dimensions to industry standard smartwatch 
+				devices which has many capabilities such as real-time NTP 
+				time updating, texting, heart rate and SPO2 monitoring, activity 
+				step tracking, screen orientation checking, audio recording and 
+				playing, and a stopwatch integrated. Specifically, we utilize the WiFi
+				features of the Pico W for real time updating and texting.</p>
+			<figure>
+				<img src="images/group.jpg" alt="Project Introduction" class="scaled-image-960">
+				<figcaption>Our group - Parker Schless (left), Katarina Duric (middle), George Maidhof (right)</figcaption>
+			</figure>
+			<iframe 
+				width="960" 
+				height="540" 
+				src="https://www.youtube.com/embed/u0ErQuF8XQI" 
+				frameborder="0" 
+				allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+				allowfullscreen>
+			</iframe>
     </section>
 
     <section id="high-level-design">
-        <h2>High-Level Design</h2>
-				<p>High-level design here</p>
+			<h2>High-Level Design</h2>
+			<h3>Rationale and Sources</h3>
+			<p>The rationale behind this project is that we wanted to utilize a variety of 
+				sensors and peripherals to implement interesting functionalities, all of 
+				which interface with the central Raspberry Pi Pico W. Additionally, we wanted to 
+				complete a project which involved a complete embedded-systems design experience
+				by developing both the hardware and software from scratch, while also incorporating
+				our shared interests in wearable technology that promotes health. The design involves a 
+				combination of hardware design, software design, systems engineering, and 
+				user interface design, promoting cross-domain engineering thinking. Some 
+				of the sources that were very helpful for the project include Professor 
+				Adams's Github Repository, Raspberry Pi Pico Repository, Professor Land's 
+				Project Demos, as well as integrated component specific libraries, all 
+				of which can be found under our References section in the Appendix.</p>
+			<h3>Background Math</h3>
+			<p>Much of our project was centered around embedded-system-level integration
+				of various components to create a cohesive and multi-functional device.
+				As such, there was not a significant amount of pure mathematical background
+				and analysis required for this project. However, both the heart rate/SPO2 sensor
+				as well as PDM microphone processing pipeline online code repositories (links
+				in the Appendix section) utilized signal processing to interpret the raw
+				data from the sensors. For instance, the heart rate/SPO2 sensor works by shining
+				red and IR light onto the skin and measuring the amount of light reflected back
+				using tuned photodetectors. These raw values from the photodetectors are then read
+				out over the I2C bus to the host, where they are processed using a series of
+				algorithms to determine the heart rate and SPO2 values.</p>
+			<h4>Heart Rate/SPO2 Algorithm</h4>
+			<p>For heart rate detection, an average DC estimator as well as a low-pass
+				FIR (finite-impulese-response) filter are used. The DC estimator updates the average value of the IR
+				photodetector over the past few samples with the a new sample by tracking the
+				DC component of the signal over time and smoothing out fluctuations. This
+				estimator is implemented with the following library code where "p" is the pointer
+				to the variable holding the average and "x" is the new sample. An estimation
+				of the DC component is also returned:
+			<pre>
+				<code>
+//  Average DC Estimator
+int16_t max30102_hr_avg_dc_estimator(
+  int32_t* p, 
+  uint16_t x
+) {
+  *p += ((((long) x << 15) - *p) >> 4);
+  return (*p >> 15);
+}
+				</code>
+			</pre></p>
+			<p>
+				The low-pass FIR filter works by multiplying accumulating the input signal
+				with multiplications by pre-computed coefficients in what is considered a
+				convolution. By doing this, the high-frequency components of the signal are filtered out,
+				to produce a more stable signal. The filter is implemented with the following library code
+				where "din" is the new sample minus the estimated average from the DC estimator, 
+				"cbuf" is the circular buffer of the last 32 samples, "offset" is the current index in the
+				circular buffer, and "FIRCoeffs" is the array of pre-computed coefficients:
+			<pre>
+				<code>
+// Low Pass FIR Filter
+int16_t max30102_hr_low_pass_fir_filter(
+  int16_t         din, 
+  int16_t*        cbuf, 
+  uint8_t*        offset, 
+  const uint16_t* FIRCoeffs
+) {  
+  cbuf[*offset] = din;
+  int32_t z = (long)(FIRCoeffs[11]) * (long)(cbuf[(*offset - 11) & 0x1F]);
+  for (uint8_t i = 0; i < 11; i++)
+    z += (long)(FIRCoeffs[i]) * (long)(cbuf[(*offset - i) & 0x1F] + cbuf[(*offset - 22 + i) & 0x1F]);
+  *offset = *offset + 1;
+  *offset = *offset % 32;
+  return(z >> 15);
+}
+				</code>
+			</pre></p>
+			<p>Once the signal is smoothed out using the DC estimator and low-pass FIR filter,
+				a positive crossing is detected by checking if the previous sample was negative
+				and the current sample is positive. If this is true, then a heartbeat has been
+				detected and necessary calculations can be made to determine the heart rate as
+				described later in our software implementation section.
+			</p>
+			<p>For SPO2 detection, we first obtain the DC mean for the IR signal by taking a simple
+				average. Next, we find the two lowest values in the IR values signal and find the
+				corresponding max to use between those. This process yields values for the following 
+				equation for calculation of the
+				SPO2 percentage: $$an\_ratio = \frac{AC_{red} \cdot DC_{IR}}{AC_{IR} \cdot DC_{red}}$$
+				where the "AC_" values are the AC components of the red and IR signals
+				and the "DC_" values are the DC components of the red and IR signals.
+				The result of the calculation will then be put into a circular buffer, sorted in
+				ascending order, and then the median used to index into a lookup table for the
+				specific percentage to use. The library code to find the maximum value between the two
+				lowest points in the IR signal and compute the above formula is as follows (see
+				the code repository for more details on the specifics of the algorithm):
+				<pre>
+					<code>
+// find max between two valley locations 
+// and use an_ratio betwen AC compoent of Ir & Red and DC compoent of Ir & Red for SPO2 
+for (k = 0; k < n_exact_ir_valley_locs_count-1; k++) {
+	n_y_dc_max = -16777216; 
+	n_x_dc_max = -16777216; 
+	if (an_ir_valley_locs[k+1]-an_ir_valley_locs[k] >3) {
+			for (i = an_ir_valley_locs[k]; i < an_ir_valley_locs[k+1]; i++) {
+				if (an_ir[i] > n_x_dc_max) {n_x_dc_max = an_ir[i]; n_x_dc_max_idx = i;}
+				if (an_red[i] > n_y_dc_max) {n_y_dc_max = an_red[i]; n_y_dc_max_idx = i;}
+		}
+		n_y_ac  = (an_red[an_ir_valley_locs[k+1]] - an_red[an_ir_valley_locs[k] ] )*(n_y_dc_max_idx -an_ir_valley_locs[k]);
+		n_y_ac  = an_red[an_ir_valley_locs[k]] + n_y_ac/ (an_ir_valley_locs[k+1] - an_ir_valley_locs[k]) ; 
+		n_y_ac  = an_red[n_y_dc_max_idx] - n_y_ac; // subracting linear DC compoenents from raw 
+		n_x_ac  = (an_ir[an_ir_valley_locs[k+1]] - an_ir[an_ir_valley_locs[k] ] )*(n_x_dc_max_idx -an_ir_valley_locs[k]);
+		n_x_ac  = an_ir[an_ir_valley_locs[k]] + n_x_ac/ (an_ir_valley_locs[k+1] - an_ir_valley_locs[k]); 
+		n_x_ac  = an_ir[n_y_dc_max_idx] - n_x_ac; // subracting linear DC compoenents from raw 
+		n_nume  = (n_y_ac *n_x_dc_max)>>7; // prepare X100 to preserve floating value
+		n_denom = (n_x_ac *n_y_dc_max)>>7;
+		if (n_denom > 0 && n_i_ratio_count < 5 && n_nume != 0) {
+
+			// formula is ( n_y_ac *n_x_dc_max) / ( n_x_ac *n_y_dc_max)
+			an_ratio[n_i_ratio_count]= (n_nume*100)/n_denom; 
+			n_i_ratio_count++;
+		}
+	}
+}
+					</code>
+				</pre>
+			</p>
+			<h4>PDM to PCM Compression Algorithm</h4>
+			<p>A single sample produced by the PDM PIO block is 1024 bits wide. However,
+				this sample must be compressed to 16 bits so that multiple such samples can
+				be reasonably stored in memory, which is limited on the Pico W. This is done
+				using the OpenPDMFilter library which, at a high-level, extracts each bit of
+				the input sample, multiplies it with a corresponding filter coefficient, and
+				accumulates the result into a 16-bit output sample. The filter coefficients
+				are pre-computed and stored in a lookup table. Similar to the heart rate/SPO2
+				algorithm, low-pass and high-pass filtering is used to remove high-frequency
+				noise. A library code snippet which implements this is as follows:
+			<pre>
+				<code>
+for (i = 0, data_out_index = 0; i < Param->Fs / 1000; i++, data_out_index += channels) {
+    Z0 = filter_tables_64[j](data, 0);
+    Z1 = filter_tables_64[j](data, 1);
+    Z2 = filter_tables_64[j](data, 2);
+ 
+    Z = Param->Coef[1] + Z2 - sub_const;
+    Param->Coef[1] = Param->Coef[0] + Z1;
+    Param->Coef[0] = Z0;
+ 
+    OldOut = (Param->HP_ALFA * (OldOut + Z - OldIn)) >> 8;
+    OldIn = Z;
+    OldZ = ((256 - Param->LP_ALFA) * OldZ + Param->LP_ALFA * OldOut) >> 8;
+ 
+    Z = OldZ * volume;
+    Z = RoundDiv(Z, div_const);
+    Z = SaturaLH(Z, -32700, 32700);
+ 
+    dataOut[data_out_index] = Z;
+    data += data_inc;
+  }
+				</code>
+			</pre>
+			</p>
+			<h3>Logical Structure</h3>
+			<p>Since our system involves significant hardware as well as software design,
+				we needed to prioritize the different design phases in terms of how long each 
+				would take. For instance, we knew designing the PCB and waiting for it to be
+				delivered would take the longest, so we prioritized the design of it first such
+				that we could send it out for manufacturing as soon as possible. While the PCB's
+				were being made, we utilized breadboard testing to develop our basic software 
+				for menu navigation and interacting with our various peripherals that were
+				accessible without the PCB, such as the OLED screen. In this way, we were able
+				to structure our design process such that we could work on both our hardware
+				and software in parallel to complete this large project within such a short
+				time frame.</p>
+			<h3>Hardware/Software Tradeoffs</h3>
+			<p>With such a small package, tradeoffs needed to be made for our hardware
+				selection. For instance, all of our selected components needed to be small
+				enough to fit on our compact PCB. Otherwise, the design would be far too large
+				to be worn comfortably on the wrist. This meant we had to choose a very small
+				speaker, which ended up being too small to be driven by the DAC without an
+				external amplifier. Additionally, our OLED screen and battery needed to be
+				quite small to fit within the design parameters. In terms of our software,
+				we were primarily limited by the amount of on-board RAM on the Pi Pico W,
+				which meant we could only use 5 second audio samples for our audio recording
+				and playback application. The limited range of the built-in WiFi antenna
+				also meant we needed to be quite close to the access point to get a reliable
+				connection.
+			</p>
+			<h3>Existing Designs</h3>
+			<p>Apart from drawing inspiration from companies that hold numerous 
+				patents related to smartwatch design ideas such as Apple, Meta, 
+				and Velancell, there are not any specific patents that we were inspired 
+				by. The various high-level, user-facing features of such devices like heart rate
+			  monitoring, real-time updating, and microphone and speaker integration
+			  were the primary inspiration for our design choices.</p>						
     </section>
 
     <section id="hardware-design">
@@ -300,6 +490,10 @@
 					<img src="images/smartwatch_cad_3.png" alt="3D-Printed Case CAD 3" class="scaled-image-960">
 					<figcaption>3D-printed case CAD angle 3</figcaption>
 				</figure>
+				<figure>
+					<img src="images/smartwatch_cad_4.png" alt="3D-Printed Case CAD 4" class="scaled-image-960">
+					<figcaption>3D-printed case CAD angle 4</figcaption>
+				</figure>
 				<h3>Total Cost</h3>
 				<p>Project specifications required our total unit cost to be under 
 					$125. We selected our parts using this as a guiding constraint. 
@@ -413,7 +607,6 @@
 
     <section id="software-design">
         <h2>Software Design</h2>
-				<p>Our repository is located <a href="https://github.com/pis7/ECE5730_Smartwatch_SW">here</a>.</p>
 				<h3>Directory Structure</h3>
 				<p>We structure our directory to have a main .c file for our primary 
 					software loop, with a corresponding .h and .c file for each peripheral 
@@ -1062,7 +1255,7 @@ if (sw_en) {
 					  the audio was played back correctly. We also encountered the additional
 					  problem of the WiFi connection interfering with the SPI transactions
 					  to the DAC as discussed in further detail in our Challenges 
-						section. </p>
+						section.</p>
 					<pre>
 						<code>
 // If we are not done recording, start recording
@@ -1133,7 +1326,7 @@ if (!audio_done_rec) {
 								appropriate DAC channel, gain, and other parameters</td>
 						</tr>
 					</table>
-					<h4>Info Scren</h4>
+					<h4>Info Screen</h4>
 					<p>A simple info screen is also available which displays the IP address, 
 						MAC address, and UDP port of the smartwatch given it is connected 
 						to the network. This screen is essential for configuring a computer 
@@ -1193,6 +1386,7 @@ if (!audio_done_rec) {
 
     <section id="results">
         <h2>Results of Design</h2>
+				<h3>Accuracy of Sensor Data</h3>
         <p>The accuracy of our data is something our group took pride in. Our 
 					real time clock accuracy was checked by comparing against the time on 
 					any WiFi-connected device. After leaving the watch on for hours, we 
@@ -1207,6 +1401,7 @@ if (!audio_done_rec) {
 					Step tracking was verified by walking a predetermined number of steps 
 					that we counted manually and ensuring the reading on the watch matched 
 					it.</p>
+				<h3>Safety of Design</h3>
 				<p>Additionally, ensuring safety with our watch was paramount for our 
 					design. Our first priority when designing the watch was to make it 
 					something practical the everyday consumer could use with limited 
@@ -1223,6 +1418,7 @@ if (!audio_done_rec) {
 					accessible. As for the sensors utilized, none have been noted to cause 
 					any harm to the user, so we can be sure there are no long-term risks 
 					associated with our design.</p>
+				<h3>Usability of Design</h3>
 				<p>As for usability, one aspect we aimed for was cost-efficiency, meaning 
 					we used parts that would get the results we wanted accurately without 
 					having to send much money. The placement of the components on the PCB 
@@ -1238,6 +1434,7 @@ if (!audio_done_rec) {
 
     <section id="conclusions">
         <h2>Conclusions</h2>
+				<h3>Meeting Expectations/Standards</h3>
         <p>In reflection, the goals we set out to meet for this project were 
 					achieved. When pitching our smartwatch, our group aimed to create a 
 					custom PCB that would incorporate the Pico W, an OLED screen display, 
@@ -1256,7 +1453,7 @@ if (!audio_done_rec) {
 					each of our passions for health and to partner it with the field of 
 					electronics, hence how we came to the idea of making a smartwatch. 
 					When defining the constraints for the project, we wanted to make 
-					sure we could measure someone's everyday health with sensors along 
+					sure we could monitor someone's everyday health with sensors along 
 					with using WiFi to enhance the features included. With that being 
 					said, we did have some important lessons learned during this project 
 					that contributed to some changes in our original design.</p>
@@ -1265,9 +1462,9 @@ if (!audio_done_rec) {
 					to mount such as the IMU. Luckily, we had access to a hot plate 
 					and solder paste which meant we did not have to rely solely on hand 
 					soldering. Additionally, we found that the lack of an on-board 
-					amplifier prevented us from using a standard 8-ohm speaker. As 
+					amplifier prevented us from using an 8-ohm speaker. As 
 					such, we ended up using a standard 3.5mm headphone jack to pipe 
-					the audio out to a standard audio interface, which worked just fine 
+					the audio out to an external audio interface, which worked just fine 
 					for our application as a lightweight pair of earbuds could be easily 
 					plugged in and not add any bulk to the device.</p>
 				<p>In the mix of the software and hardware interaction, we found that 
@@ -1297,7 +1494,7 @@ if (!audio_done_rec) {
 				  of our smartwatch so that we can store longer audio samples and possibly
 				  even entire MP3 files. This way, we could store songs and play them back
 				  through the connected audio device, similar to an iPod.</p>
-				<p>With the conclusion of our prototype of a smart watch, 
+				<p>With the conclusion of our prototype of a smartwatch, 
 					we are proud to see the work we have put in come to 
 					fruition under both tight time as well as budget constraints. 
 					We had established a system capable of a real-time clock, audio 
@@ -1308,13 +1505,20 @@ if (!audio_done_rec) {
 					extraction, and microcontroller programming. We also enhanced our 
 					knowledge of communication protocols and physics related knowledge 
 					of how sensors can monitor and interact with metrics related to our 
-					human health. Our team has met the goals we aimed to achieve coming 
+					health. Our team has met the goals we aimed to achieve coming 
 					into this project and produced a completely functional product within 
 					just a 5 week period.</p>
+				<h3>IP Considerations</h3>
+				<p>In terms of IP considerations, all of our publicly-available code
+					is shown in the Appendix section. The hardware design of the smartwatch
+					was fully designed by our group, as well as the non-public software code.
+				</p>
     </section>
 
 		<section id="appendix">
 				<h2>Appendix</h2>
+				<h3>Code Repository</h3>
+				<p>Our repository with our commented code is located <a href="https://github.com/pis7/ECE5730_Smartwatch_SW">here</a>.</p>
 				<h3>Approvals</h3>
 				<p>The group approves this report for inclusion on the course website.</p>
 				<p>The group approves the video for inclusion on the course YouTube channel.</p>
@@ -1333,9 +1537,15 @@ if (!audio_done_rec) {
 				<p><a href="https://www.ti.com/lit/ds/symlink/tlv767.pdf?HQS=dis-dk-null-digikeymode-dsf-pf-null-wwe&ts=1747126861712&ref_url=https%253A%252F%252Fwww.ti.com%252Fgeneral%252Fdocs%252Fsuppproductinfo.tsp%253FdistId%253D10%2526gotoUrl%253Dhttps%253A%252F%252Fwww.ti.com%252Flit%252Fgpn%252Ftlv767">TLV767 Datasheet</a></p>
 				<p><a href="https://www.st.com/content/ccc/resource/technical/document/datasheet/e4/b1/d1/62/1a/e6/44/2f/DM00168691.pdf/files/DM00168691.pdf/jcr:content/translations/en.DM00168691.pdf">I3G4250D Datasheet</a></p>
 				<h3>Tasks for Each Team Member</h3>
-				<p>Parker was responsible for the high-level design of the PCB as well as the CAD for the case. He was also responsible for the overall software infrastructure including the menu system and basic sensor integration.</p>
-				<p>Katarina was responsible for PCB layout, integration of the heart rate sensor and angle rate sensor, and website design.</p>
-				<p>George was responsible for the integration of the Pico W libraries to make use of UDP and NTP for the real-time clock and communication between devices.</p>
+				<p>Parker was responsible for the high-level design of the PCB as well as the CAD for the case. He was also responsible for the overall software infrastructure including the menu system and basic sensor integration.
+					<a href="https://github.com/pis7">GitHub</a> <a href="https://www.linkedin.com/in/parker-schless/">LinkedIn</a>
+				</p>
+				<p>Katarina was responsible for PCB layout, integration of the heart rate sensor and angle rate sensor, and website design.
+					<a href="https://github.com/kd374">GitHub</a> <a href="https://www.linkedin.com/in/katarina-duric/">LinkedIn</a>
+				</p>
+				<p>George was responsible for the integration of the Pico W libraries to make use of UDP and NTP for the real-time clock and communication between devices.
+					<a href="https://github.com/georgemaid">GitHub</a> <a href="https://www.linkedin.com/in/george-maidhof/">LinkedIn</a>
+				</p>
 		</section>
 
     <footer>
